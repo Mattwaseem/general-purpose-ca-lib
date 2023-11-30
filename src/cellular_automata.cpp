@@ -1,3 +1,4 @@
+#include 'CellularAutomata.h'
 #include <vector>
 
 class CellularAutomata
