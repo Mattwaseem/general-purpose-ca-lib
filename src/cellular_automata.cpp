@@ -35,8 +35,3 @@ public:
     // Abstract method to be overridden in derived classes
     virtual void updateGrid() = 0;
 };
-
-
-int main(){
-    return 0;
-}
