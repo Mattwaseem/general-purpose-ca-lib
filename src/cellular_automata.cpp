@@ -1,4 +1,5 @@
 #include <vector>
+#include "../Include/CellularAutomata.h"
 
 class CellularAutomata
 {

@@ -1,18 +1,16 @@
 #include <iostream>
 #include <vector>
-#include "CellularAutomata.h"
+#include "../Include/CellularAutomata.h"
 using namespace std;
 
-class VonNeumannCA : public CellularAutomata{
-    public:
-        VonNeumannCA(int width , int height) : CellularAutomata(width , height){}
+        VonNeumannCA::VonNeumannCA(int width , int height) : CellularAutomata(width , height){}
 
-        void initializeGrid() override{
+        void VonNeumannCA::initializeGrid(){
             // Implementation for initializing Von Neumann Grid
             // We will set initial states of each cell here
         }
 
-        void updateGrid() override
+        void VonNeumannCA::updateGrid()
         {
             std::vector<std::vector<int>> newGrid = grid;
 
@@ -49,4 +47,15 @@ class VonNeumannCA : public CellularAutomata{
             grid = newGrid;
         }
 
-};
+
+
+
+int main() {
+    VonNeumannCA vn(10, 10);
+
+    // You can now use the methods of the VonNeumannCA class
+    vn.initializeGrid();
+    vn.updateGrid();
+
+    return 0;
+}
