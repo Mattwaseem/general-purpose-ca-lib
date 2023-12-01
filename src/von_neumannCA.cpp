@@ -47,6 +47,8 @@ using namespace std;
             grid = newGrid;
         }
 
+        void CellularAutomate::displayGrid() const{}
+
 
 
 
