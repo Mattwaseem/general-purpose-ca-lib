@@ -1,66 +1,55 @@
-#include 'CellularAutomata.h'
-#include <vector>
+#include "CellularAutomata.h"
 
-class MooreCA : public CellularAutomata
+// Constructor
+MooreCA::MooreCA(int width, int height) : CellularAutomata(width, height)
 {
-public:
-    MooreCA(int width, int height) : CellularAutomata(width, height)
-    {
-        // Additional initialization if needed
-    }
+    // Additional initialization if needed
+}
 
-    void initializeGrid() override
-    {
-        // Custom initialization for MooreCA, if needed
-    }
+// Initialize the grid with default values
+void MooreCA::initializeGrid()
+{
+    // Implement the initialization logic for the grid
+    // You can set initial states for each cell here
+}
 
-    void updateGrid() override
+// Count the active neighbors in Moore's neighborhood
+int MooreCA::countActiveNeighbors(int x, int y)
+{
+    int count = 0;
+    for (int i = -1; i <= 1; ++i)
     {
-        std::vector<std::vector<int>> newGrid = grid;
-
-        for (int y = 0; y < height; ++y)
+        for (int j = -1; j <= 1; ++j)
         {
-            for (int x = 0; x < width; ++x)
+            if (i == 0 && j == 0)
+                continue; // Skip the cell itself
+            int newX = x + i, newY = y + j;
+            if (newX >= 0 && newX < width && newY >= 0 && newY < height)
             {
-                int activeNeighbors = countActiveNeighbors(x, y);
-                // Update logic based on Moore's neighborhood
-                // Example: Simple Conway's Game of Life Rules
-                if (grid[x][y] == 1)
-                {
-                    // Any live cell with fewer than two live neighbors dies (underpopulation).
-                    // Any live cell with two or three live neighbors lives on to the next generation.
-                    // Any live cell with more than three live neighbors dies (overpopulation).
-                    newGrid[x][y] = (activeNeighbors == 2 || activeNeighbors == 3) ? 1 : 0;
-                }
-                else
-                {
-                    // Any dead cell with exactly three live neighbors becomes a live cell (reproduction).
-                    newGrid[x][y] = (activeNeighbors == 3) ? 1 : 0;
-                }
+                count += grid[newX][newY];
             }
         }
-
-        grid = newGrid; // Update the grid for the next generation
     }
+    return count;
+}
 
-private:
-    int countActiveNeighbors(int x, int y)
+// Update the grid based on Moore's neighborhood rule
+void MooreCA::updateGrid()
+{
+    std::vector<std::vector<int>> newGrid = grid;
+
+    for (int y = 0; y < height; ++y)
     {
-        int count = 0;
-        for (int i = -1; i <= 1; ++i)
+        for (int x = 0; x < width; ++x)
         {
-            for (int j = -1; j <= 1; ++j)
-            {
-                if (i == 0 && j == 0)
-                    continue; // Skip the cell itself
-                int newX = x + i, newY = y + j;
-                // Check for boundary conditions
-                if (newX >= 0 && newX < width && newY >= 0 && newY < height)
-                {
-                    count += grid[newX][newY];
-                }
-            }
+            int activeNeighbors = countActiveNeighbors(x, y);
+
+            // Implement your Moore CA rules here
+            // The logic to update the newGrid based on the current state and neighbors
+            // Example rule:
+            // newGrid[x][y] = (activeNeighbors > 3) ? 1 : 0;
         }
-        return count;
     }
-};
+
+    grid = newGrid; // Update the grid with the new state
+}
