@@ -15,28 +15,6 @@ using namespace std;
 
             for(int y=0 ; y<height ; ++y){
                 for(int x=0 ; x<width ; ++x){
-                    for(int x=0 ; x<width ; ++x){
-                        // Retrieving the state of the current cell at coordinates (x,y)
-                        int currentState = grid[x][y];
-
-                        // Checking to see if the north neighbor isn't top edge of grid- if it is, it defaults to state 0
-                        int northNeighbor = (y > 0) ? grid[x][y - 1] : 0;
-
-                        // Checking to see if the south neighbor isn't top edge of grid- if it is, it defaults to state 0
-                        int southNeighbor = (y < height - 1) ? grid[x][y + 1] : 0;
-
-                        // Checking to see if the east neighbor isn't top edge of grid- if it is, it defaults to state 0
-                        int eastNeighbor = (x < width - 1) ? grid[x + 1][y] : 0;
-
-                        //  Checking to see if the west neighbor isn't top edge of grid- if it is, it defaults to state 0
-                        int westNeighbor = (x > 0) ? grid[x - 1][y] : 0;
-
-                        // Implement your Von Neumann CA rules here
-                        // Update the newGrid based on the current state and neighbors
-                        // newgrid[x][y] = updatedState;
-
-
-                    }
 //                 // Get the state of the current cell and its neighbors
                     int currentState = grid[x][y];
                     int northNeighbor = (y > 0) ? grid[x][y - 1] : 0;
@@ -49,6 +27,7 @@ using namespace std;
 //                 // newGrid[x][y] = updatedState;
                     }
                 }
+                grid = newgrid;
             }
         
 // class VonNeumannCA : public CellularAutomata
