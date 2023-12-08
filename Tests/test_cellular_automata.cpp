@@ -5,6 +5,57 @@
 #include "../src/cellular_automata.cpp"
 using namespace std; // allows the use of std namespace without prefixing (i.e std::vector -> vector)
 
+// Initialize a 1D grid with random values
+void initGrid1D(CellularAutomata::Grid1D &grid)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, 1);
+
+    for (auto &cell : grid)
+    {
+        cell = dis(gen); // Randomly set each cell to 0 or 1
+    }
+}
+
+// Example rule for 1D Cellular Automata
+int rule1DExample(int neighbors, int currentState)
+{
+    // Simple rule: If the number of neighbors is greater than 1, set to 1, else 0
+    return neighbors > 1 ? 1 : 0;
+}
+
+// initilizing a 2D CA
+void initGrid2D(CellularAutomata::Grid2D &grid)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, 1);
+
+    for (auto &row : grid)
+    {
+        for (auto &cell : row)
+        {
+            cell = dis(gen); // Randomly set each cell to 0 or 1
+        }
+    }
+}
+
+int majorityRule(int neighbors, int currentState)
+{
+    return (neighbors > 4) ? 1 : 0;
+}
+
+int totalisticRule(int neighbors, int currentState)
+{
+    return (neighbors == 3) ? 1 : 0;
+}
+
+int parityRule(int neighbors, int currentState)
+{
+    return (neighbors % 2 == 0) ? 1 : 0;
+}
+
 int main()
 {
 
@@ -150,6 +201,34 @@ int main()
     ca2d_8.Print();
     cout << endl
          << endl
+         << endl;
+
+    //________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+    // Test 1: 1D, Periodic, Moore
+    CellularAutomata ca1D_periodic_moore(10, GridDimension::OneD, BoundaryCondition::Periodic, NeighborhoodType::Moore);
+    ca1D_periodic_moore.Initialize1D(initGrid1D);
+    ca1D_periodic_moore.ApplyRule1D(rule1DExample);
+    cout << "1D, Periodic, Moore: " << endl;
+    ca1D_periodic_moore.Print();
+    cout << endl
+         << endl;
+
+    // Test 2: 1D, Fixed, Moore
+    CellularAutomata ca1D_fixed_moore(10, GridDimension::OneD, BoundaryCondition::Fixed, NeighborhoodType::Moore);
+    ca1D_fixed_moore.Initialize1D(initGrid1D);
+    ca1D_fixed_moore.ApplyRule1D(rule1DExample);
+    cout << "1D, Fixed, Moore: " << endl;
+    ca1D_fixed_moore.Print();
+    cout << endl
+         << endl;
+
+    // Test 3: 1D, NoBoundary, Moore
+    CellularAutomata ca1D_noboundary_moore(10, GridDimension::OneD, BoundaryCondition::NoBoundary, NeighborhoodType::Moore);
+    ca1D_noboundary_moore.Initialize1D(initGrid1D);
+    ca1D_noboundary_moore.ApplyRule1D(rule1DExample);
+    cout << "1D, NoBoundary, Moore: " << endl;
+    ca1D_noboundary_moore.Print();
+    cout << endl
          << endl;
 
     return 0;
