@@ -1,140 +1,99 @@
-#ifndef CELLULAR_AUTOMATA_H
-#define CELLULAR_AUTOMATA_H
+// Include/CellularAutomata.h
+#pragma once       // A preprocessor directive to prevent multiple inclusions of the header file during compilation.
+#ifndef CELL_AUT_H // Include guard (if Cell_Aut_H not include yet define it and continue)
+//- to prevent multiple inclusions of the header file during compilation.
+#define CELL_AUT_H // header guard (proceed with including the header content )
 
-#include <vector>
 #include <iostream>
 #include <vector>
 #include <functional>
 #include <random>
 
-// how does enumerate know what is oneD, and TwoD and how does it implement this
+// Enum declarations -> enumaration used to represent a set of configuration for the CA library
+// Name constant rather than generic numbers were use to make the code more readable and understandable.
+
+// Enumeration class declaration for grid dimensions of the CA
 enum class GridDimension
 {
     OneD,
     TwoD
 };
-// how does enumerate know what is Fixed, Periodic and how does it implement this
+
+// Enumeration class declaration for boundary conditions of the CA
 enum class BoundaryCondition
 {
     Fixed,
     Periodic,
     NoBoundary
 };
-// how does enumerate know what is Moore and VonNeumann and how does it implement this
+
+// Enumeration class declaration for neighborhood type of the CA
 enum class NeighborhoodType
 {
     Moore,
     VonNeumann
 };
 
+// The core of the CA library: the CellularAutomata class.
+// CellularAutomata class declaration
 class CellularAutomata
 {
 public:
+    // type aliases/defintion for 1D and 2D grids using standard vector as the primary data structure.
     using Grid1D = std::vector<int>;
     using Grid2D = std::vector<std::vector<int>>;
-    using RuleFunction1D = std::function<void(Grid1D &)>;
-    using RuleFunction2D = std::function<void(Grid2D &)>;
-    using InitializationFunction1D = std::function<void(Grid1D &)>;
+
+    // These are rule function types that take in the current state and the number of neighbors and return the new state.
+    // they represent the rules that will be used to update the state of a cell based on its current state and the number of neighbors.
+    using RuleFunction1D = std::function<int(int, int)>;
+    using RuleFunction2D = std::function<int(int, int)>;
+
+    // These are function types that take in a reference to the grid and initialize it.
+    // by initilization the grid they set up the initial state of the CA.
+    using InitializationFunction1D = std::function<void(Grid1D &)>; // defined as a function pointer (std::function).
     using InitializationFunction2D = std::function<void(Grid2D &)>;
 
-    CellularAutomata(int size, GridDimension dimension, BoundaryCondition bc, NeighborhoodType nt)
-        : size_(size), dimension_(dimension), boundary_condition_(bc), neighborhood_type_(nt)
-    {
-        if (dimension == GridDimension::OneD)
-        {
-            grid_1d_.resize(size, 0);
-        }
-        else
-        {
-            grid_2d_.resize(size, std::vector<int>(size, 0));
-        }
-    }
+    // Constructor for the CellularAutomata class.
+    // It takes in the size of the grid, the grid dimension, the boundary condition, and the neighborhood types and
+    // initializes the member variables accordingly and generate an instance of the class CA.
+    CellularAutomata(int size, GridDimension dimension, BoundaryCondition bc, NeighborhoodType nt);
 
-    void Initialize2D(InitializationFunction2D init_func)
-    {
-        if (dimension_ == GridDimension::TwoD)
-        {
-            init_func(grid_2d_);
-        }
-        else
-        {
-            throw std::runtime_error("Initialization function for 2D grid called on a non-2D automaton");
-        }
-    }
+    // Member functions for the CellularAutomata class.
 
-    void ApplyRule2D(RuleFunction2D rule_func)
-    {
-        if (dimension_ == GridDimension::TwoD)
-        {
-            rule_func(grid_2d_);
-        }
-        else
-        {
-            throw std::runtime_error("Rule function for 2D grid called on a non-2D automaton");
-        }
-    }
+    // These member functions are used to initialize the grid (1D/2D).
+    void Initialize1D(const InitializationFunction1D &init_func);
+    void Initialize2D(const InitializationFunction2D &init_func);
+    // These member functions are used to apply the rules to the grid (1D/2D) to update the state of the CA.
+    void ApplyRule1D(const RuleFunction1D &rule_func);
+    void ApplyRule2D(const RuleFunction2D &rule_func);
 
-    void Print() const
-    {
-        if (dimension_ == GridDimension::OneD)
-        {
-            for (int cell : grid_1d_)
-            {
-                std::cout << cell << " ";
-            }
-            std::cout << "\n";
-        }
-        else
-        {
-            for (const auto &row : grid_2d_)
-            {
-                for (int cell : row)
-                {
-                    std::cout << cell << " ";
-                }
-                std::cout << "\n";
-            }
-        }
-    }
+    // This is the display function which prints the current state of the CA to the standard output/terminal
+    void Print() const;
 
-private:
+private: // private members of the CellularAutomata class that will not be accesible outside of the class.
+    // represent the size of the grid in 1D it is number of cells and in 2D it is number of rows and columns.
     int size_;
+    // A variable that stores the dimensionality of the grid (1D/2D) as defined by the enum class GridDimension.
     GridDimension dimension_;
+    // The variable that holds the type of boundary condition as defined by the enum class BoundaryCondition.
     BoundaryCondition boundary_condition_;
+    // The variable that holds the type of neighborhood as defined by the enum class NeighborhoodType.
     NeighborhoodType neighborhood_type_;
-    Grid1D grid_1d_;
-    Grid2D grid_2d_;
+    // The data structures that store the current state of the CA in the grid
+    Grid1D grid_1d_; // standard vector (AKA dynamic array) that contains 1D state of the CA
+    Grid2D grid_2d_; // A vector of vectors from the standard library that contains 2D state of the CA
 
-    int CalculateNeighbors2D(int i, int j)
-    {
-        int neighbors = 0;
-        for (int di = -1; di <= 1; ++di)
-        {
-            for (int dj = -1; dj <= 1; ++dj)
-            {
-                if (di == 0 && dj == 0)
-                    continue; // Skip the center cell
+    // vectors are used to store the state of the CA because they automatically resize and dynamically manage
+    // own memory. The also handle their own resizing.
 
-                int ni = i + di;
-                int nj = j + dj;
+    // These are private member functions that are used to calculate the number of neighbors for a given cell
+    // CalculateNeighbors1D(int index) const - calculate the number of active neighbors around a given 1D grid
+    // it takes the index of the cell and returns the count of neighbors based on specific neighborhood type
+    // and boundary condition
+    int CalculateNeighbors1D(int index) const;
 
-                // Boundary condition handling
-                if (boundary_condition_ == BoundaryCondition::Periodic)
-                {
-                    ni = (ni + size_) % size_;
-                    nj = (nj + size_) % size_;
-                }
-                else if (boundary_condition_ == BoundaryCondition::NoBoundary)
-                {
-                    if (ni < 0 || ni >= size_ || nj < 0 || nj >= size_)
-                        continue;
-                }
-
-                neighbors += grid_2d_[ni][nj];
-            }
-        }
-        return neighbors;
-    }
+    // CalculateNeighbors2D(int i, int j) const - calculate the number of active neighbors around a given 2D grid
+    int CalculateNeighbors2D(int i, int j) const;
 };
 
-#endif // CELLULAR_AUTOMATA_H
+#endif // CELL_AUT_H - marks the end of the header guard conditional

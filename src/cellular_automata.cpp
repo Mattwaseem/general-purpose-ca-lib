@@ -1,151 +1,360 @@
 #include <iostream>
-#include <vector>
-#include <functional>
+#include <vector> // used as the data structure that will hold the data for the grid for the CA.
 #include <random>
+#include "../Include/CellularAutomata.h"
+using namespace std; // allows the use of std namespace without prefixing (i.e std::vector -> vector)
 
-class CellularAutomata3D
+// Constructor
+// initilizes the class members (size_, dimension,boundary conditions as bc, neighbortype as nt)
+CellularAutomata::CellularAutomata(int size, GridDimension dimension, BoundaryCondition bc, NeighborhoodType nt)
+    : size_(size), dimension_(dimension), boundary_condition_(bc), neighborhood_type_(nt)
+// below are conditional statements to set the grid_1d_ and grid_2d_ to the correct size
+// depending on the dimension of the CA inputted by the application/user.
 {
-public:
-    using Grid = std::vector<std::vector<std::vector<int>>>;
-    using RuleFunction = std::function<void(int &, int)>;
-    using InitializationFunction = std::function<void(Grid &)>;
-
-    CellularAutomata3D(int size, bool use_moore_neighborhood = true)
-        : size_(size), use_moore_neighborhood_(use_moore_neighborhood)
+    if (dimension == GridDimension::OneD)
     {
-        grid_.resize(size, std::vector<std::vector<int>>(size, std::vector<int>(size, 0)));
+        grid_1d_.resize(size, 0); // resize method used to resize grid as specified and initilize to 0.
     }
-
-    void Initialize(InitializationFunction init_func)
+    else
     {
-        init_func(grid_);
+        grid_2d_.resize(size, std::vector<int>(size, 0)); // resize two a square grid size X size using vector of vector.
     }
-    // make modifications here to incldue totalistic rule as well and give the option of choosin - area of focus
-    // or other.
-    // if else switc statement/class inheritance -
-    // define the rule functions
-    void ApplyRule(RuleFunction rule_func)
-    {
-        Grid new_grid = grid_;
-        Grid neighbors_sum = CalculateNeighborsSum();
+}
 
-        for (int i = 0; i < size_; ++i)
+// Initialize1D
+// this method takes in the reference function(init_func)references to intilizationfunction1d and intializationfunction2D
+// and calls the correct initialization function depending on the dimension of the CA given by the user.
+void CellularAutomata::Initialize1D(const InitializationFunction1D &init_func)
+{
+    if (dimension_ != GridDimension::OneD) // dimension check to ensure intilization is one dimension only.
+    {
+        throw std::runtime_error("Initialization function for 1D grid called on a non-1D automaton");
+    }
+    init_func(grid_1d_); // both are reference functions which apply intilization logic once if condition is passed.
+}
+
+// Initialize2D
+// same thing as the 1D but used in the context of 2D.
+void CellularAutomata::Initialize2D(const InitializationFunction2D &init_func)
+{
+    if (dimension_ != GridDimension::TwoD)
+    {
+        throw std::runtime_error("Initialization function for 2D grid called on a non-2D automaton");
+    }
+    init_func(grid_2d_);
+}
+
+// ApplyRule1D
+void CellularAutomata::ApplyRule1D(const RuleFunction1D &rule_func)
+{
+    if (dimension_ != GridDimension::OneD)
+    {
+        throw std::runtime_error("Rule function for 1D grid called on a non-1D automaton");
+    }
+    Grid1D new_grid = grid_1d_;
+    for (int i = 0; i < size_; ++i)
+    {
+        int neighbors = CalculateNeighbors1D(i);
+        new_grid[i] = rule_func(neighbors, grid_1d_[i]);
+    }
+    grid_1d_ = std::move(new_grid);
+}
+
+// ApplyRule2D
+void CellularAutomata::ApplyRule2D(const RuleFunction2D &rule_func)
+{
+    if (dimension_ != GridDimension::TwoD)
+    {
+        throw std::runtime_error("Rule function for 2D grid called on a non-2D automaton");
+    }
+    Grid2D new_grid = grid_2d_;
+    for (int i = 0; i < size_; ++i)
+    {
+        for (int j = 0; j < size_; ++j)
         {
-            for (int j = 0; j < size_; ++j)
-            {
-                for (int k = 0; k < size_; ++k)
-                {
-                    rule_func(new_grid[i][j][k], neighbors_sum[i][j][k]);
-                }
-            }
+            int neighbors = CalculateNeighbors2D(i, j);
+            new_grid[i][j] = rule_func(neighbors, grid_2d_[i][j]);
         }
-
-        grid_ = new_grid;
     }
+    grid_2d_ = std::move(new_grid);
+}
 
-    void Run(int steps, RuleFunction rule_func, InitializationFunction init_func)
+// Print
+void CellularAutomata::Print() const
+{
+    if (dimension_ == GridDimension::OneD)
     {
-        Initialize(init_func);
-        for (int i = 0; i < steps; ++i)
+        for (int cell : grid_1d_)
         {
-            ApplyRule(rule_func);
+            std::cout << cell << " ";
         }
+        std::cout << "\n";
     }
-
-    void Print() const
+    else
     {
-        for (const auto &plane : grid_)
+        for (const auto &row : grid_2d_)
         {
-            for (const auto &row : plane)
+            for (int cell : row)
             {
-                for (int cell : row)
-                {
-                    std::cout << cell << " ";
-                }
-                std::cout << "\n";
+                std::cout << cell << " ";
             }
             std::cout << "\n";
         }
     }
+}
 
-private:
-    int size_;
-    bool use_moore_neighborhood_;
-    Grid grid_;
-    // understand this and make sure we can choose between the moors and vonnouman. - area of focus.
-    Grid CalculateNeighborsSum()
+// CalculateNeighbors1D // update for Moore's neighborhood
+int CellularAutomata::CalculateNeighbors1D(int index) const
+{
+    int neighbors = 0;
+    for (int di = -1; di <= 1; ++di)
     {
-        Grid neighbors_sum(size_, std::vector<std::vector<int>>(size_, std::vector<int>(size_, 0)));
+        if (di == 0)
+            continue; // Skip the center cell
+        int ni = index + di;
 
-        for (int i = 0; i < size_; ++i)
+        // Boundary condition handling
+        switch (boundary_condition_)
         {
-            for (int j = 0; j < size_; ++j)
-            {
-                for (int k = 0; k < size_; ++k)
-                {
-                    int sum = 0;
-                    for (int di = -1; di <= 1; ++di)
-                    {
-                        for (int dj = -1; dj <= 1; ++dj)
-                        {
-                            for (int dk = -1; dk <= 1; ++dk)
-                            {
-                                // Skip the center cell
-                                if (di == 0 && dj == 0 && dk == 0)
-                                    continue;
-                                int ni = (i + di + size_) % size_;
-                                int nj = (j + dj + size_) % size_;
-                                int nk = (k + dk + size_) % size_;
-                                sum += grid_[ni][nj][nk];
-                            }
-                        }
-                    }
-                    neighbors_sum[i][j][k] = sum;
-                }
-            }
+        case BoundaryCondition::Periodic:
+            ni = (ni + size_) % size_;
+            break;
+        case BoundaryCondition::Fixed:
+            if (ni < 0 || ni >= size_)
+                ni = index; // Assume boundary cells are in the same state as the current cell
+            break;
+        case BoundaryCondition::NoBoundary:
+            if (ni < 0 || ni >= size_)
+                continue;
+            break;
         }
-        return neighbors_sum;
+
+        neighbors += grid_1d_[ni];
     }
-};
-// void new_funct(int i)
-// Example usage
+    return neighbors;
+}
+
+// CalculateNeighbors2D
+// Moore neighborhood logic (all eight neighbors)
+// This is the default case in your current implementation
+int CellularAutomata::CalculateNeighbors2D(int i, int j) const
+{
+    int neighbors = 0;
+    for (int di = -1; di <= 1; ++di)
+    {
+        for (int dj = -1; dj <= 1; ++dj)
+        {
+            if (di == 0 && dj == 0)
+                continue; // Skip the center cell
+
+            // For Von Neumann neighborhood, consider only direct neighbors
+            if (neighborhood_type_ == NeighborhoodType::VonNeumann && abs(di) + abs(dj) > 1)
+            {
+                continue;
+            }
+
+            int ni = i + di;
+            int nj = j + dj;
+
+            // Boundary condition handling
+            switch (boundary_condition_)
+            {
+            case BoundaryCondition::Periodic:
+                ni = (ni + size_) % size_;
+                nj = (nj + size_) % size_;
+                break;
+            case BoundaryCondition::Fixed:
+                if (ni < 0 || ni >= size_ || nj < 0 || nj >= size_)
+                    continue;
+                break;
+            case BoundaryCondition::NoBoundary:
+                if (ni < 0 || ni >= size_ || nj < 0 || nj >= size_)
+                    continue;
+                break;
+            }
+
+            neighbors += grid_2d_[ni][nj];
+        }
+    }
+    return neighbors;
+}
+
+void initGrid2D(CellularAutomata::Grid2D &grid)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, 1);
+
+    for (auto &row : grid)
+    {
+        for (auto &cell : row)
+        {
+            cell = dis(gen); // Randomly set each cell to 0 or 1
+        }
+    }
+}
+
+int majorityRule(int neighbors, int currentState)
+{
+    return (neighbors > 4) ? 1 : 0;
+}
+
+int totalisticRule(int neighbors, int currentState)
+{
+    return (neighbors == 3) ? 1 : 0;
+}
+
+int parityRule(int neighbors, int currentState)
+{
+    return (neighbors % 2 == 0) ? 1 : 0;
+}
+
 int main()
 {
-    int size = 10;                     // Define the size of the grid
-    CellularAutomata3D ca(size, true); // true for Moore neighborhood
 
-    // Define the initialization function
-    CellularAutomata3D::InitializationFunction init_func = [](CellularAutomata3D::Grid &grid)
-    {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> distrib(0, 1);
-        for (auto &plane : grid)
-        {
-            for (auto &row : plane)
-            {
-                for (int &cell : row)
-                {
-                    cell = distrib(gen);
-                }
-            }
-        }
-    };
-    // you can change these to specific rule rule functions.
-    //
-    // Define the rule function
-    CellularAutomata3D::RuleFunction rule_func = [](int &cell, int neighbors_sum)
-    {
-        // Implement your rule here. This is a simple example that flips the cell state based on neighbors sum
-        cell = (neighbors_sum % 2 == 0) ? 1 : 0;
-    };
+    // Testing out the 2D, Periodic, and Moore conditions (majorityRule)
+    CellularAutomata ca2D(10, GridDimension::TwoD, BoundaryCondition::Periodic, NeighborhoodType::Moore);
 
-    // Run the cellular automata
-    int steps = 5; // Define the number of steps to simulate
-    ca.Run(steps, rule_func, init_func);
+    // Initialize the grid
+    ca2D.Initialize2D(initGrid2D);
 
-    // Print the final state of the grid
-    ca.Print();
+    // Apply a rule
+    ca2D.ApplyRule2D(majorityRule);
+
+    // Print the final state
+    cout << "Results of 2D , Periodic, and Moore (majority): " << endl;
+    ca2D.Print();
+    cout << endl
+         << endl
+         << endl;
+
+    // Testing out the 2D , Fixed , and Moore conditions (majorityRule)
+    CellularAutomata ca2d_1(10, GridDimension::TwoD, BoundaryCondition::Fixed, NeighborhoodType::Moore);
+
+    // Initializing the grid
+    ca2d_1.Initialize2D(initGrid2D);
+
+    // Apply a rule
+    ca2d_1.ApplyRule2D(majorityRule);
+
+    // Printing out the final state
+    cout << "Results of 2D, Fixed, and Moore (majority): " << endl;
+    ca2d_1.Print();
+    cout << endl
+         << endl
+         << endl;
+
+    // Testing out the 2D , NoBoundary , and Moore conditions (majorityRule)
+    CellularAutomata ca2d_2(10, GridDimension::TwoD, BoundaryCondition::NoBoundary, NeighborhoodType::Moore);
+
+    // Initializing the grid
+    ca2d_2.Initialize2D(initGrid2D);
+
+    // Apply a rule
+    ca2d_2.ApplyRule2D(majorityRule);
+
+    // Printing out the final state
+    cout << "Results of 2D, NoBoundary, and Moore (majority): " << endl;
+    ca2d_2.Print();
+    cout << endl
+         << endl
+         << endl;
+
+    // Testing out the 2D, Periodic, and Moore conditions (totalisticRule)
+    CellularAutomata ca2d_3(10, GridDimension::TwoD, BoundaryCondition::Periodic, NeighborhoodType::Moore);
+
+    // Initializing the grid
+    ca2d_3.Initialize2D(initGrid2D);
+
+    // Apply a rule
+    ca2d_3.ApplyRule2D(totalisticRule);
+
+    // Printing out the final state
+    cout << "Results of 2D, Periodic, and Moore (totalistic): " << endl;
+    ca2d_3.Print();
+    cout << endl
+         << endl
+         << endl;
+
+    // Testing out the 2D, Fixed, and Moore conditions (totalisticRule)
+    CellularAutomata ca2d_4(10, GridDimension::TwoD, BoundaryCondition::Fixed, NeighborhoodType::Moore);
+
+    // Initializing the grid
+    ca2d_4.Initialize2D(initGrid2D);
+
+    // Apply a rule
+    ca2d_4.ApplyRule2D(totalisticRule);
+
+    // Printing out the final state
+    cout << "Results of 2D, Fixed, and Moore (totalistic): " << endl;
+    ca2d_4.Print();
+    cout << endl
+         << endl
+         << endl;
+
+    // Testing out the 2D, NoBoundary, and Moore conditions (totalisticRule)
+    CellularAutomata ca2d_5(10, GridDimension::TwoD, BoundaryCondition::NoBoundary, NeighborhoodType::Moore);
+
+    // Initializing the grid
+    ca2d_5.Initialize2D(initGrid2D);
+
+    // Apply a rule
+    ca2d_5.ApplyRule2D(totalisticRule);
+
+    // Printing out the final state
+    cout << "Results of 2D, NoBoundary, and Moore (totalistic): " << endl;
+    ca2d_5.Print();
+    cout << endl
+         << endl
+         << endl;
+
+    // Testing out the 2D, Periodic, and Moore conditions (parityRule)
+    CellularAutomata ca2d_6(10, GridDimension::TwoD, BoundaryCondition::Periodic, NeighborhoodType::Moore);
+
+    // Initializing the grid
+    ca2d_6.Initialize2D(initGrid2D);
+
+    // Apply a rule
+    ca2d_6.ApplyRule2D(parityRule);
+
+    // Priting out the final state
+    cout << "Results of 2D, Periodic, and Moore (parity): " << endl;
+    ca2d_6.Print();
+    cout << endl
+         << endl
+         << endl;
+
+    // Testing out the 2D, Fixed, and Moore conditions (parityRule)
+    CellularAutomata ca2d_7(10, GridDimension::TwoD, BoundaryCondition::Fixed, NeighborhoodType::Moore);
+
+    // Initializing the grid
+    ca2d_7.Initialize2D(initGrid2D);
+
+    // Apply a rule
+    ca2d_7.ApplyRule2D(parityRule);
+
+    // Priting out the final state
+    cout << "Results of 2D, Fixed, and Moore (parity): " << endl;
+    ca2d_7.Print();
+    cout << endl
+         << endl
+         << endl;
+
+    // Testing out the 2D, NoBoundary, and Moore conditions (parityRule)
+    CellularAutomata ca2d_8(10, GridDimension::TwoD, BoundaryCondition::NoBoundary, NeighborhoodType::Moore);
+
+    // Initializing the grid
+    ca2d_8.Initialize2D(initGrid2D);
+
+    // Apply a rule
+    ca2d_8.ApplyRule2D(parityRule);
+
+    // Priting out the final state
+    cout << "Results of 2D, NoBoundary, and Moore (parity): " << endl;
+    ca2d_8.Print();
+    cout << endl
+         << endl
+         << endl;
 
     return 0;
 }
