@@ -35,6 +35,7 @@ void CellularAutomata::Initialize1D(const InitializationFunction1D &init_func)
 
 // Initialize2D
 // same thing as the 1D but used in the context of 2D.
+// main asks intilize2D to set up grid, initilize2D references and looks into init_funct on specific instructions.
 void CellularAutomata::Initialize2D(const InitializationFunction2D &init_func)
 {
     if (dimension_ != GridDimension::TwoD)
@@ -45,22 +46,25 @@ void CellularAutomata::Initialize2D(const InitializationFunction2D &init_func)
 }
 
 // ApplyRule1D
+// this method takes in the pointer function Rulefunction1D as an argument which represent the rules applied
+// to each cell in CA for a 1D grid.
 void CellularAutomata::ApplyRule1D(const RuleFunction1D &rule_func)
 {
     if (dimension_ != GridDimension::OneD)
     {
         throw std::runtime_error("Rule function for 1D grid called on a non-1D automaton");
     }
-    Grid1D new_grid = grid_1d_;
-    for (int i = 0; i < size_; ++i)
+    Grid1D new_grid = grid_1d_;     // create a new grid to grid_1d and initilize it to the current state of grid_1d_
+    for (int i = 0; i < size_; ++i) // loop through each cell in the grid_1d_
     {
-        int neighbors = CalculateNeighbors1D(i);
-        new_grid[i] = rule_func(neighbors, grid_1d_[i]);
+        int neighbors = CalculateNeighbors1D(i);         // calculate the number of active neighbors
+        new_grid[i] = rule_func(neighbors, grid_1d_[i]); // apply the rule_func (fxn pointer) to each cell which takes current state and number of neighbors
     }
-    grid_1d_ = std::move(new_grid);
+    grid_1d_ = std::move(new_grid); // assign the new grid to gird_1d and transfer ownership of data from new_grid to grid_1d_
 }
 
 // ApplyRule2D
+// the same logic as the 1D but used in the context of 2D.
 void CellularAutomata::ApplyRule2D(const RuleFunction2D &rule_func)
 {
     if (dimension_ != GridDimension::TwoD)
@@ -136,7 +140,7 @@ int CellularAutomata::CalculateNeighbors1D(int index) const
 
 // CalculateNeighbors2D
 // Moore neighborhood logic (all eight neighbors)
-// This is the default case in your current implementation
+// This is the default case in our current implementation
 int CellularAutomata::CalculateNeighbors2D(int i, int j) const
 {
     int neighbors = 0;
