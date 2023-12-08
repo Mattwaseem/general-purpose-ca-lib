@@ -1,79 +1,45 @@
-#ifndef CELLULAR_AUTOMATA_H
-#define CELLULAR_AUTOMATA_H
+// Include/CellularAutomata.h
 
+#ifndef CELL_AUT_H
+#define CELL_AUT_H
+
+#include <iostream>
 #include <vector>
+#include <functional>
+#include <random>
 
-// Base class for Cellular Automata
-class CellularAutomata
-{
-protected:
-    int width, height;
-    std::vector<std::vector<int>> grid;
+// Enum declarations
+enum class GridDimension { OneD, TwoD };
+enum class BoundaryCondition { Fixed, Periodic, NoBoundary };
+enum class NeighborhoodType { Moore, VonNeumann };
 
+// CellularAutomata class declaration
+class CellularAutomata {
 public:
-    CellularAutomata(int width, int height);
-    virtual void initializeGrid();
-    virtual void displayGrid() const;
-    virtual void updateGrid() = 0;
-};
+    using Grid1D = std::vector<int>;
+    using Grid2D = std::vector<std::vector<int>>;
+    using RuleFunction1D = std::function<int(int, int)>;
+    using RuleFunction2D = std::function<int(int, int)>;
+    using InitializationFunction1D = std::function<void(Grid1D&)>;
+    using InitializationFunction2D = std::function<void(Grid2D&)>;
 
-
-
-// Specific implementation for Moore's Neighborhood
-class MooreCA : public CellularAutomata
-{
-public:
-    MooreCA(int width, int height);
-    void initializeGrid() override;
-    void updateGrid() override;
+    CellularAutomata(int size, GridDimension dimension, BoundaryCondition bc, NeighborhoodType nt);
+    void Initialize1D(const InitializationFunction1D& init_func);
+    void Initialize2D(const InitializationFunction2D& init_func);
+    void ApplyRule1D(const RuleFunction1D& rule_func);
+    void ApplyRule2D(const RuleFunction2D& rule_func);
+    void Print() const;
 
 private:
-    int countActiveNeighbors(int x, int y);
+    int size_;
+    GridDimension dimension_;
+    BoundaryCondition boundary_condition_;
+    NeighborhoodType neighborhood_type_;
+    Grid1D grid_1d_;
+    Grid2D grid_2d_;
+
+    int CalculateNeighbors1D(int index) const;
+    int CalculateNeighbors2D(int i, int j) const;
 };
 
-
-
-// Specific implementation for Von Neumann's Neighborhood (if you have one)
-class VonNeumannCA : public CellularAutomata
-{
-public:
-    // Similar structure to MooreCA
-    public:
-        VonNeumannCA(int width , int height);
-        void initializeGrid() override;
-        void updateGrid() override;
-    VonNeumannCA(int width, int height);
-    void initializeGrid() override;
-    void updateGrid() override;
-
-private:
-    int countActiveNeighbors(int x, int y);
-};
-
-class NeuronToNeuronCA
-// Neuron to Neuron Cellular Automat
-{
-private:
-    MooreCA mooreCA;
-    VonNeumannCA vonNeumannCA;
-    bool useMooreNeighborhood;
-    std::vector<std::vector<std::vector<std::vector<float>>>> synapticWeights;
-    std::vector<std::vector<float>> activationThresholds;
-    float plasticityRate;
-    float decayRate;
-    float ltpThreshold;
-
-    std::vector<std::pair<int, int>> getNeighbors(int x, int y) const;
-
-public:
-    NeuronToNeuronCA(int width, int height, bool useMoore);
-    void initializeGrid();
-    void updateGrid();
-    void displayGrid() const;
-    void setPlasticityRate(float rate);
-    void setDecayRate(float rate);
-    void setLtpThreshold(float threshold);
-    void setActivationThreshold(int x, int y, float threshold);
-};
-
-#endif // CELLULAR_AUTOMATA_H
+#endif // CELL_AUT_H
