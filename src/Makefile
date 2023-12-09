@@ -4,22 +4,32 @@ CPP = g++ # C++ Compiler
 # Compiler flags -g for debug, -O3 for optimized version, -std=c++11 to enable C++11 features
 CPPFLAGS = -g -O3 -std=c++11
 
-# Name of the executable
-EXECUTABLE = cellautvec
+# Include directory (relative to the src directory)
+INCDIR = ../Include
+
+# Library directory (relative to the src directory)
+LIBDIR = ../Lib
+
+# Object file name
+OBJECT = cellular_automata.o
 
 # Source file
-SOURCE = cellautvec.cpp
+SOURCE = cellular_automata.cpp
 
 # Phony targets for make commands
-.PHONY: all clean
+.PHONY: all clean move_object
 
 # Default target
-all: $(EXECUTABLE)
+all: $(OBJECT) move_object
 
-# Rule for compiling cellautvec.cpp to an executable
-$(EXECUTABLE): $(SOURCE)
-	$(CPP) $(CPPFLAGS) -o $@ $<
+# Rule for compiling cellular_automata.cpp to an object file
+$(OBJECT): $(SOURCE) $(INCDIR)/CellularAutomata.h
+	$(CPP) $(CPPFLAGS) -I$(INCDIR) -c $(SOURCE) -o $(OBJECT)
 
-# Clean target to clean up the executable
+# Move the object file to the library directory
+move_object:
+	-mv $(OBJECT) $(LIBDIR)/
+
+# Clean target to clean up the object file
 clean:
-	rm -f $(EXECUTABLE)
+	-rm -f $(LIBDIR)/$(OBJECT)

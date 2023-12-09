@@ -1,12 +1,8 @@
 #include <iostream>
 #include <vector> // used as the data structure that will hold the data for the grid for the CA.
 #include <random>
-<<<<<<< HEAD
 #include <sstream> // print to a string stream and use your -ostream and pipe to a text file.
 #include <fstream> // read from a file.
-=======
-#include <fstream>
->>>>>>> origin
 #include "../Include/CellularAutomata.h"
 #include "../src/cellular_automata.cpp"
 using namespace std; // allows the use of std namespace without prefixing (i.e std::vector -> vector)
@@ -67,7 +63,7 @@ void runTestAndSave(CellularAutomata& ca, const string& testName, const string& 
 
         // Save the results to the file
         outputFile << "Results of " << testName << " (Iteration " << i + 1 << "):" << endl;
-        ca.Print(outputFile);
+        ca.Print();
 
         cout << endl << endl;
         outputFile << endl << endl;
