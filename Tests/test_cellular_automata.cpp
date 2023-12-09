@@ -1,7 +1,12 @@
 #include <iostream>
 #include <vector> // used as the data structure that will hold the data for the grid for the CA.
 #include <random>
+<<<<<<< HEAD
+#include <sstream> // print to a string stream and use your -ostream and pipe to a text file.
+#include <fstream> // read from a file.
+=======
 #include <fstream>
+>>>>>>> origin
 #include "../Include/CellularAutomata.h"
 #include "../src/cellular_automata.cpp"
 using namespace std; // allows the use of std namespace without prefixing (i.e std::vector -> vector)
@@ -99,8 +104,7 @@ int main()
 
     // Printing out the final state
     cout << "Results of 2D, Fixed, and Moore (majority): " << endl;
-    ca2d_1.Print();
-    cout << endl
+    cout << ca2d_1.Print() << endl
          << endl
          << endl;
 
@@ -115,11 +119,12 @@ int main()
 
     // Printing out the final state
     cout << "Results of 2D, NoBoundary, and Moore (majority): " << endl;
-    ca2d_2.Print();
+    ca2d_2.Print(); // formatted output >> printing to a string.
     cout << endl
          << endl
          << endl;
-
+    std::ofstream out("ca2d_2.txt");
+    out << ca2d_2.Print();
     // Testing out the 2D, Periodic, and Moore conditions (totalisticRule)
     CellularAutomata ca2d_3(10, GridDimension::TwoD, BoundaryCondition::Periodic, NeighborhoodType::Moore);
 
