@@ -1,8 +1,12 @@
 #include <iostream>
 #include <vector> // used as the data structure that will hold the data for the grid for the CA.
 #include <random>
+<<<<<<< HEAD
 #include <sstream> // print to a string stream and use your -ostream and pipe to a text file.
 #include <fstream> // read from a file.
+=======
+#include <fstream>
+>>>>>>> origin
 #include "../Include/CellularAutomata.h"
 #include "../src/cellular_automata.cpp"
 using namespace std; // allows the use of std namespace without prefixing (i.e std::vector -> vector)
@@ -43,19 +47,31 @@ void initGrid2D(CellularAutomata::Grid2D &grid)
     }
 }
 
-int majorityRule(int neighbors, int currentState)
+// Function to run a test and save the results to a file
+// Removing const from parameter list a good idea?
+void runTestAndSave(CellularAutomata& ca, const string& testName, const string& fileName, int numIterations = 10)
 {
-    return (neighbors > 4) ? 1 : 0;
-}
+    ofstream outputFile(fileName);
 
-int totalisticRule(int neighbors, int currentState)
-{
-    return (neighbors == 3) ? 1 : 0;
-}
+    for (int i = 0; i < numIterations; ++i)
+    {
+        // Initialize the grid
+        ca.Initialize2D(initGrid2D);
 
-int parityRule(int neighbors, int currentState)
-{
-    return (neighbors % 2 == 0) ? 1 : 0;
+        // Apply a rule
+        ca.ApplyRule2D(majorityRule);
+
+        // Print the final state to the console
+        cout << "Results of " << testName << " (Iteration " << i + 1 << "):" << endl;
+        ca.Print();
+
+        // Save the results to the file
+        outputFile << "Results of " << testName << " (Iteration " << i + 1 << "):" << endl;
+        ca.Print(outputFile);
+
+        cout << endl << endl;
+        outputFile << endl << endl;
+    }
 }
 
 int main()
@@ -233,5 +249,86 @@ int main()
     cout << endl
          << endl;
 
-    return 0;
+     // Test 4: 1D, Periodic, Von Neumann (parityRule)
+     CellularAutomata ca1D_periodic_vn(10, GridDimension::OneD, BoundaryCondition::Periodic, NeighborhoodType::VonNeumann);
+     ca1D_periodic_vn.Initialize1D(initGrid1D);
+     ca1D_periodic_vn.ApplyRule1D(parityRule);
+     cout << "1D, Periodic, VN (parityRule): " << endl;
+     ca1D_periodic_vn.Print();
+     cout << endl
+          << endl;
+
+     // Test 5: 1D, Fixed, Von Neumann (parityRule)
+     CellularAutomata ca1D_fixed_vn(10, GridDimension::OneD, BoundaryCondition::Fixed, NeighborhoodType::VonNeumann);
+     ca1D_fixed_vn.Initialize1D(initGrid1D);
+     ca1D_fixed_vn.ApplyRule1D(parityRule);
+     cout << "1D, Fixed, VN (parityRule): " << endl;
+     ca1D_fixed_vn.Print();
+     cout << endl
+          << endl;
+
+     // Test 6: 1D, NoBoundary, Von Neumann (parityRule)
+     CellularAutomata ca1D_nobound_vn(10, GridDimension::OneD, BoundaryCondition::NoBoundary, NeighborhoodType::VonNeumann);
+     ca1D_nobound_vn.Initialize1D(initGrid1D);
+     ca1D_nobound_vn.ApplyRule1D(parityRule);
+     cout << "1D, NoBoundary, VN (parityRule): " << endl;
+     ca1D_nobound_vn.Print();
+     cout << endl
+          << endl;
+
+     // Test 7: 1D, Periodic, Von Neumann (totalisticRule_1D)
+     CellularAutomata ca1D_periodic_vn2(10, GridDimension::OneD, BoundaryCondition::Periodic, NeighborhoodType::VonNeumann);
+     ca1D_periodic_vn2.Initialize1D(initGrid1D);
+     ca1D_periodic_vn2.ApplyRule1D(totalisticRule_1D);
+     cout << "1D, Periodic, VN (totalisticRule_1D): " << endl;
+     ca1D_periodic_vn2.Print();
+     cout << endl
+          << endl;
+
+     // Test 8: 1D, Fixed, Von Neumann (totalisticRule_1D)
+     CellularAutomata ca1D_fixed_vn2(10, GridDimension::OneD, BoundaryCondition::Fixed, NeighborhoodType::VonNeumann);
+     ca1D_fixed_vn2.Initialize1D(initGrid1D);
+     ca1D_fixed_vn2.ApplyRule1D(totalisticRule_1D);
+     cout << "1D, Fixed, VN (totalisticRule_1D): " << endl;
+     ca1D_fixed_vn2.Print();
+     cout << endl
+          << endl;
+
+     // Test 9: 1D, NoBoundary, Von Neumann (totalisticRule_1D)
+     CellularAutomata ca1D_nobound_vn2(10, GridDimension::OneD, BoundaryCondition::NoBoundary, NeighborhoodType::VonNeumann);
+     ca1D_nobound_vn2.Initialize1D(initGrid1D);
+     ca1D_nobound_vn2.ApplyRule1D(totalisticRule_1D);
+     cout << "1D, NoBoundary, VN (totalisticRule_1D): " << endl;
+     ca1D_nobound_vn2.Print();
+     cout << endl
+          << endl;
+
+     // Test 10: 1D, Periodic, Von Neumann (majorityRule_1D)
+     CellularAutomata ca1D_periodic_vn3(10, GridDimension::OneD, BoundaryCondition::Periodic, NeighborhoodType::VonNeumann);
+     ca1D_periodic_vn3.Initialize1D(initGrid1D);
+     ca1D_periodic_vn3.ApplyRule1D(majorityRule_1D);
+     cout << "1D, Periodic, VN (majorityRule_1D): " << endl;
+     ca1D_periodic_vn3.Print();
+     cout << endl 
+          << endl;
+
+     // Test 11: 1D, Fixed, Von Neumann (majorityRule_1D)
+     CellularAutomata ca1D_fixed_vn3(10, GridDimension::OneD, BoundaryCondition::Fixed, NeighborhoodType::VonNeumann);
+     ca1D_fixed_vn3.Initialize1D(initGrid1D);
+     ca1D_fixed_vn3.ApplyRule1D(majorityRule_1D);
+     cout << "1D, Fixed, VN (majorityRule_1D): " << endl;
+     ca1D_fixed_vn3.Print();
+     cout << endl 
+          << endl;
+
+     // Test 12: 1D, NoBoundary, Von Neumann (majorityRule_1D)
+     CellularAutomata ca1D_nobound_vn3(10, GridDimension::OneD, BoundaryCondition::NoBoundary, NeighborhoodType::VonNeumann);
+     ca1D_nobound_vn3.Initialize1D(initGrid1D);
+     ca1D_nobound_vn3.ApplyRule1D(majorityRule_1D);
+     cout << "1D, NoBoundary, VN (majorityRule_1D): " << endl;
+     ca1D_nobound_vn3.Print();
+     cout << endl 
+          << endl;
+
+     return 0;
 }

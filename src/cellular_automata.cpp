@@ -184,4 +184,32 @@ int CellularAutomata::CalculateNeighbors2D(int i, int j) const
         }
     }
     return neighbors;
+
+
+}
+
+// This rule is specific for the 2D CA model
+int majorityRule(int neighbors, int currentState)
+{
+    return (neighbors > 4) ? 1 : 0;
+}
+
+int totalisticRule(int neighbors, int currentState)
+{
+    return (neighbors == 3) ? 1 : 0;
+}
+
+int parityRule(int neighbors, int currentState)
+{
+    return (neighbors % 2 == 0) ? 1 : 0;
+}
+
+// This totalistic rule is specific for the 1D CA model
+int totalisticRule_1D(int neighbors, int currentState){
+     return (neighbors > 0) ? 1 : 0;
+}
+
+// This majority rule is specific for the 1D CA model
+int majorityRule_1D(int neighbors, int currentState){
+    return (neighbors >= 2) ? 1 : 0;
 }
