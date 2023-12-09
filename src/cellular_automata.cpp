@@ -77,23 +77,24 @@ void CellularAutomata::ApplyRule2D(const RuleFunction2D &rule_func)
         for (int j = 0; j < size_; ++j)
         {
             int neighbors = CalculateNeighbors2D(i, j);
-            new_grid[i][j] = rule_func(neighbors, grid_2d_[i][j]);
+            new_grid[i][j] = rule_func(grid_2d_[i][j], neighbors);
         }
     }
     grid_2d_ = std::move(new_grid);
 }
 
 // Print
-void CellularAutomata::Print() const // this is the display method, const prevent this method from changing the state of the CA.
+string CellularAutomata::Print() const // this is the display method, const prevent this method from changing the state of the CA.
 {
+    stringstream ss; // stringstream used to print the grid in a specific format depending on the dimension.
     // Print the grid in a specific format depending on the dimension.
     if (dimension_ == GridDimension::OneD)
     {
         for (int cell : grid_1d_)
         {
-            std::cout << cell << " ";
+            ss << cell << " ";
         }
-        std::cout << "\n";
+        ss << "\n";
     }
     else
     {
@@ -101,11 +102,12 @@ void CellularAutomata::Print() const // this is the display method, const preven
         {
             for (int cell : row)
             {
-                std::cout << cell << " ";
+                ss << cell << " ";
             }
-            std::cout << "\n";
+            ss << "\n";
         }
     }
+    return ss.str(); // return the stringstream as a string
 }
 
 // CalculateNeighbors1D // update for Moore's neighborhood
