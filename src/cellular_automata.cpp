@@ -214,3 +214,4 @@ int totalisticRule_1D(int neighbors, int currentState){
 int majorityRule_1D(int neighbors, int currentState){
     return (neighbors >= 2) ? 1 : 0;
 }
+
