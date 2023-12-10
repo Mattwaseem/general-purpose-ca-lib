@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector> // used as the data structure that will hold the data for the grid for the CA.
 #include <random>
+#include <sstream> // print to a string stream and use your -ostream and pipe to a text file.
 #include "../Include/CellularAutomata.h"
 using namespace std; // allows the use of std namespace without prefixing (i.e std::vector -> vector)
 
