@@ -53,7 +53,8 @@ public:
     using InitializationFunction1D = std::function<void(Grid1D &)>; // defined as a function pointer (std::function).
     using InitializationFunction2D = std::function<void(Grid2D &)>;
 
-    // Declaration of the member function to retrieve the 2D grid state
+    // Declaration of the member function to retrieve the 2D grid state, this function will be used by the application
+    // to retrieve the current state of the CA for nueron simulation.
     const Grid2D &getGrid2D() const;
 
     // Constructor for the CellularAutomata class.
