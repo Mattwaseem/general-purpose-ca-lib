@@ -45,6 +45,16 @@ void CellularAutomata::Initialize2D(const InitializationFunction2D &init_func)
     init_func(grid_2d_);
 }
 
+// getGrid2D implementation
+const CellularAutomata::Grid2D &CellularAutomata::getGrid2D() const
+{
+    if (dimension_ != GridDimension::TwoD)
+    {
+        throw std::runtime_error("getGrid2D called on a non-2D automaton");
+    }
+    return grid_2d_;
+}
+
 // ApplyRule1D
 // this method takes in the pointer function Rulefunction1D as an argument which represent the rules applied
 // to each cell in CA for a 1D grid.
