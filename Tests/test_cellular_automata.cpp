@@ -12,7 +12,7 @@ void initGrid1D(CellularAutomata::Grid1D &grid)
 {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 1);
+    std::uniform_int_distribution<> dis(0, 1); // Uniformly distributing the random values 
 
     for (auto &cell : grid)
     {
@@ -32,7 +32,7 @@ void initGrid2D(CellularAutomata::Grid2D &grid)
 {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 1);
+    std::uniform_int_distribution<> dis(0, 1); // Uniformly distributing the random values
 
     for (auto &row : grid)
     {
@@ -44,42 +44,13 @@ void initGrid2D(CellularAutomata::Grid2D &grid)
 }
 
 
-
-
-// void PrintToFile(const CellularAutomata &ca, const std::string &fileName)
-// {
-//     std::ofstream outputFile(fileName);
-
-//     // Check if the file is open before printing
-//     if (outputFile.is_open())
-//     {
-//         // Access the internal state using the new method
-//         const CellularAutomata::Grid2D& grid = ca.GetGrid2D();
-
-//         // Print the grid to the file
-//         for (const auto& row : grid) {
-//             for (int cell : row) {
-//                 outputFile << cell << ' ';
-//             }
-//             outputFile << '\n';
-//         }
-
-//         outputFile.close();
-//         std::cout << "Results saved to file: " << fileName << std::endl;
-//     }
-//     else
-//     {
-//         std::cerr << "Unable to open file: " << fileName << std::endl;
-//     }
-// }
-
-
+// Function to print results of 2D cellular automata that use majority rule
 void PrintToFile_2D_majority( CellularAutomata &ca,  const std::string &fileName)
 {
     std::ofstream outputFile(fileName);
 
     if (outputFile.is_open())
-    {
+    {   // Since we want 10 iterations, we will get the grid each time
         for (int iteration = 0; iteration < 10; ++iteration)
         {
             // Access the internal state using the new method
@@ -111,12 +82,13 @@ void PrintToFile_2D_majority( CellularAutomata &ca,  const std::string &fileName
     }
 }
 
+// Function to print results of 2D cellular automata that use parity rule
 void PrintToFile_2D_parity( CellularAutomata &ca,  const std::string &fileName)
 {
     std::ofstream outputFile(fileName);
 
     if (outputFile.is_open())
-    {
+    {   // Since we want 10 iterations, we will get the grid each time
         for (int iteration = 0; iteration < 10; ++iteration)
         {
             // Access the internal state using the new method
@@ -148,12 +120,13 @@ void PrintToFile_2D_parity( CellularAutomata &ca,  const std::string &fileName)
     }
 }
 
+// Function to print results of 2D cellular automata that use totalistic rule
 void PrintToFile_2D_totalistic( CellularAutomata &ca,  const std::string &fileName)
 {
     std::ofstream outputFile(fileName);
 
     if (outputFile.is_open())
-    {
+    {   // Since we want 10 iterations, we will get the grid each time
         for (int iteration = 0; iteration < 10; ++iteration)
         {
             // Access the internal state using the new method
@@ -185,13 +158,13 @@ void PrintToFile_2D_totalistic( CellularAutomata &ca,  const std::string &fileNa
     }
 }
 
-
+// Function to print results of 1D cellular automata that use majority rule
 void PrintToFile_1D_majority( CellularAutomata &ca,  const std::string &fileName)
 {
     std::ofstream outputFile(fileName);
 
     if (outputFile.is_open())
-    {
+    {   // Since we want 10 iterations, we will get the grid each time
         for (int iteration = 0; iteration < 10; ++iteration)
         {
             // Access the internal state using the new method
@@ -219,12 +192,13 @@ void PrintToFile_1D_majority( CellularAutomata &ca,  const std::string &fileName
     }
 }
 
+// Function to print results of 1D cellular automata that use parity rule
 void PrintToFile_1D_parity( CellularAutomata &ca,  const std::string &fileName)
 {
     std::ofstream outputFile(fileName);
 
     if (outputFile.is_open())
-    {
+    {   // Since we want 10 iterations, we will get the grid each time
         for (int iteration = 0; iteration < 10; ++iteration)
         {
             // Access the internal state using the new method
@@ -252,12 +226,13 @@ void PrintToFile_1D_parity( CellularAutomata &ca,  const std::string &fileName)
     }
 }
 
+// Function to print results of 1D cellular automata that use totalistic rule
 void PrintToFile_1D_totalistic( CellularAutomata &ca,  const std::string &fileName)
 {
     std::ofstream outputFile(fileName);
 
     if (outputFile.is_open())
-    {
+    {   // Since we want 10 iterations, we will get the grid each time
         for (int iteration = 0; iteration < 10; ++iteration)
         {
             // Access the internal state using the new method
@@ -284,32 +259,8 @@ void PrintToFile_1D_totalistic( CellularAutomata &ca,  const std::string &fileNa
         std::cerr << "Unable to open file: " << fileName << std::endl;
     }
 }
-// void runTestAndSave(CellularAutomata &ca, const string &testName, const string &fileName, int numIterations = 10)
-// {
-//     for (int iteration = 1; iteration <= numIterations; ++iteration)
-//     {
-//         // Initialize the grid
-//         ca.Initialize2D(initGrid2D);
 
-//         // Apply a rule
-//         ca.ApplyRule2D(majorityRule);
 
-//         // Print the final state to the console
-//         cout << "Results of " << testName << " (Iteration " << iteration << "):" << endl;
-//         ca.Print();
-
-//         // Save the results to the file
-//         string iterationFileName = fileName + "_iteration" + to_string(iteration) + ".txt";
-//         ofstream outputFile(iterationFileName);
-//         outputFile << "Results of " << testName << " (Iteration " << iteration << "):" << endl;
-//         ca.Print(outputFile);
-
-//         cout << endl
-//              << endl;
-//         outputFile << endl
-//                    << endl;
-//     }
-// }
 
 int main()
 {
@@ -319,9 +270,6 @@ int main()
 
     // Initialize the grid
     ca2D.Initialize2D(initGrid2D);
-
-    // Apply a rule
-//     ca2D.ApplyRule2D(majorityRule);
 
     // Print the final state
     cout << "Results of 2D , Periodic, and Moore (majority): " << endl;
@@ -338,9 +286,6 @@ int main()
     // Initializing the grid
     ca2d_1.Initialize2D(initGrid2D);
 
-    // Apply a rule
-//     ca2d_1.ApplyRule2D(majorityRule);
-
     // Printing out the final state
     cout << "Results of 2D, Fixed, and Moore (majority): " << endl;
     ca2d_1.Print();
@@ -355,9 +300,6 @@ int main()
 
     // Initializing the grid
     ca2d_2.Initialize2D(initGrid2D);
-
-    // Apply a rule
-//     ca2d_2.ApplyRule2D(majorityRule);
 
     // Printing out the final state
     cout << "Results of 2D, NoBoundary, and Moore (majority): " << endl;
@@ -374,9 +316,6 @@ int main()
     // Initializing the grid
     ca2d_3.Initialize2D(initGrid2D);
 
-    // Apply a rule
-//     ca2d_3.ApplyRule2D(totalisticRule);
-
     // Printing out the final state
     cout << "Results of 2D, Periodic, and Moore (totalistic): " << endl;
     ca2d_3.Print();
@@ -391,9 +330,6 @@ int main()
 
     // Initializing the grid
     ca2d_4.Initialize2D(initGrid2D);
-
-    // Apply a rule
-//     ca2d_4.ApplyRule2D(totalisticRule);
 
     // Printing out the final state
     cout << "Results of 2D, Fixed, and Moore (totalistic): " << endl;
@@ -410,9 +346,6 @@ int main()
     // Initializing the grid
     ca2d_5.Initialize2D(initGrid2D);
 
-    // Apply a rule
-//     ca2d_5.ApplyRule2D(totalisticRule);
-
     // Printing out the final state
     cout << "Results of 2D, NoBoundary, and Moore (totalistic): " << endl;
     ca2d_5.Print();
@@ -427,9 +360,6 @@ int main()
 
     // Initializing the grid
     ca2d_6.Initialize2D(initGrid2D);
-
-    // Apply a rule
-//     ca2d_6.ApplyRule2D(parityRule);
 
     // Priting out the final state
     cout << "Results of 2D, Periodic, and Moore (parity): " << endl;
@@ -446,9 +376,6 @@ int main()
     // Initializing the grid
     ca2d_7.Initialize2D(initGrid2D);
 
-    // Apply a rule
-//     ca2d_7.ApplyRule2D(parityRule);
-
     // Priting out the final state
     cout << "Results of 2D, Fixed, and Moore (parity): " << endl;
     ca2d_7.Print();
@@ -463,9 +390,6 @@ int main()
 
     // Initializing the grid
     ca2d_8.Initialize2D(initGrid2D);
-
-    // Apply a rule
-//     ca2d_8.ApplyRule2D(parityRule);
 
     // Priting out the final state
     cout << "Results of 2D, NoBoundary, and Moore (parity): " << endl;
