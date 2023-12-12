@@ -1,7 +1,9 @@
 #include <iostream>
 #include <vector> // used as the data structure that will hold the data for the grid for the CA.
 #include <random>
-#include "../include/CellularAutomata.h"
+#include <sstream> // print to a string stream and use your -ostream and pipe to a text file.
+#include <fstream> // read from a file.
+#include "../Include/CellularAutomata.h"
 #include "../src/cellular_automata.cpp"
 using namespace std; // allows the use of std namespace without prefixing (i.e std::vector -> vector)
 
@@ -130,6 +132,8 @@ int main()
     ca.Print();
     std::cout << "Grid before update loop includes [synpaticweight/decay] " << std::endl;
 
+    
+
     for (int step = 0; step < 100; ++step)
     {
         // Retrieve the grid state using the new function
@@ -145,5 +149,7 @@ int main()
         std::cout << "Grid state after step " << step << ":\n";
         ca.Print();
     }
+
     return 0;
 }
+
