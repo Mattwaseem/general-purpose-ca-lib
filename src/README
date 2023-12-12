@@ -1,16 +1,16 @@
 # Chem 274B: Software Engineering Fundamentals for Molecular Sciences
 
-# src: Directory where all source files used for this project are stored  
+### src: Directory where all source files used for this project are stored  
 
-# Created by: Sahil, Matt, Aisha 
-# Date of Created: 12/10/2023
-# Directory Path: general-purpose-ca-lib/src/
+#### Created by: Sahil, Matt, Aisha 
+#### Date of Created: 12/10/2023
+#### Directory Path: general-purpose-ca-lib/src/
 
-LIST OF SUBDIRECTORIES IN THIS DIRECTORY:
+## LIST OF SUBDIRECTORIES IN THIS DIRECTORY:
 
  (no subdirectories) 
 
-LIST OF FILES IN THIS DIRECTORY:
+## LIST OF FILES IN THIS DIRECTORY:
 
 - Makefile: Makes the targets in this directory
 - README.md: (this file) 
