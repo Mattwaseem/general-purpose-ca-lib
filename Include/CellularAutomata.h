@@ -85,6 +85,15 @@ public:
         return grid_1d_;
     }
 
+    // Method to get the internal state (grid) of the CellularAutomata
+    const Grid2D& GetGrid2D() const{
+        return grid_2d_;
+    }
+
+    const Grid1D& GetGrid1D() const{
+        return grid_1d_;
+    }
+
 private: // private members of the CellularAutomata class that will not be accesible outside of the class.
     // represent the size of the grid in 1D it is number of cells and in 2D it is number of rows and columns.
     int size_;

@@ -44,5 +44,4 @@ run:
 # Clean target to clean up the executable in BINDIR
 clean:
 	@echo "Cleaning up $(BINDIR)"
-	@cd $(BINDIR) && rm -f $(EXECUTABLE)
 	@cd $(BINDIR) && rm -f $(EXECUTABLE) *.txt
