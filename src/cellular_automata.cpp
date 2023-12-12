@@ -93,7 +93,6 @@ void CellularAutomata::ApplyRule2D(const RuleFunction2D &rule_func)
         {
             int neighbors = CalculateNeighbors2D(i, j);            // calculate the number of active neighbors for the current cell
             new_grid[i][j] = rule_func(neighbors, grid_2d_[i][j]); // Apply the rule_func (fxn pointer) to each cell which takes current state and number of neighbors
-
         }
     }
     grid_2d_ = std::move(new_grid); // assign the new grid to gird_2d and transfer ownership of data from new_grid to grid_2d_
@@ -207,7 +206,7 @@ int CellularAutomata::CalculateNeighbors2D(int i, int j) const
             // For Von Neumann neighborhood, consider only direct neighbors
             // if neighborhood_type_ is von Neumann and di + dj > 1, skip the cell.
             // this conditions skips the diagnol neighbors.
- 
+
             if (neighborhood_type_ == NeighborhoodType::VonNeumann && abs(di) + abs(dj) > 1)
             {
                 continue;
@@ -247,7 +246,6 @@ int CellularAutomata::CalculateNeighbors2D(int i, int j) const
                                                                     // is outside the grid boundaries, ignore them and continue to the next cell.
                     continue;                                       // continue to the next iteration without counting the neighbor.
                 break;                                              // once the logic is applied exit the switch statement.
-
             }
 
             neighbors += grid_2d_[ni][nj]; // used to count the number of neighboring cells that have specific states within 2D grid with simulating CA.
@@ -269,6 +267,7 @@ int totalisticRule(int neighbors, int currentState)
     return (neighbors == 3) ? 1 : 0; // if the number of neighboring cells in state 1 ('neighbors') is equal to 3 the current cell state cell should be set to 1;
 }
 
+// This rule applies for the 2D CA model as well
 int parityRule(int neighbors, int currentState)
 // purpose: to check the parity (even/or odd) of the number of neighboring cells in state 1.
 {
@@ -282,7 +281,7 @@ int totalisticRule_1D(int neighbors, int currentState)
 {
     return (neighbors > 0) ? 1 : 0; // if the number of neighboring cells in state 1 ('neighbors') is greater than 0 the current cell state cell should be set to 1;
                                     // otherwise it is set to 0.
-// This function is used to implement the totalistic rule for the 1D CA model.
+    // This function is used to implement the totalistic rule for the 1D CA model.
 }
 
 // This majority rule is specific for the 1D CA model
@@ -291,6 +290,5 @@ int majorityRule_1D(int neighbors, int currentState)
 {
     return (neighbors >= 2) ? 1 : 0; // if the number of neighboring cells in state 1 ('neighbors') is greater than or equal to 2 the current cell state cell should be set to 1;
                                      // otherwise it is set to 0.
-// This function is used to implement the majority rule for the 1D CA model.
+    // This function is used to implement the majority rule for the 1D CA model.
 }
-

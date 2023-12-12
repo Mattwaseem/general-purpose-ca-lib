@@ -1,3 +1,8 @@
-// test file for nueron2nueron.cpp - application file.
-// I will add  tests as I go through the application.
-// please feel free to help with the application if you can
+#include <cassert>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include "../Include/CellularAutomata.h"
+#include "../Include/CellularAutomata.cpp"
+#include "../Application/neuron2neuron.cpp"
