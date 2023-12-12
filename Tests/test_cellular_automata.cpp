@@ -12,7 +12,7 @@ void initGrid1D(CellularAutomata::Grid1D &grid)
 {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, 1); // Uniformly distributing the random values 
+    std::uniform_int_distribution<> dis(0, 1); // Uniformly distributing the random values
 
     for (auto &cell : grid)
     {
@@ -43,14 +43,13 @@ void initGrid2D(CellularAutomata::Grid2D &grid)
     }
 }
 
-
 // Function to print results of 2D cellular automata that use majority rule
-void PrintToFile_2D_majority( CellularAutomata &ca,  const std::string &fileName)
+void PrintToFile_2D_majority(CellularAutomata &ca, const std::string &fileName)
 {
     std::ofstream outputFile(fileName);
 
     if (outputFile.is_open())
-    {   // Since we want 10 iterations, we will get the grid each time
+    { // Since we want 10 iterations, we will get the grid each time
         for (int iteration = 0; iteration < 10; ++iteration)
         {
             // Access the internal state using the new method
@@ -71,7 +70,7 @@ void PrintToFile_2D_majority( CellularAutomata &ca,  const std::string &fileName
 
             // Apply the rule for the next iteration
             ca.ApplyRule2D(majorityRule);
-        } 
+        }
 
         outputFile.close();
         std::cout << "Results saved to file: " << fileName << std::endl;
@@ -83,12 +82,12 @@ void PrintToFile_2D_majority( CellularAutomata &ca,  const std::string &fileName
 }
 
 // Function to print results of 2D cellular automata that use parity rule
-void PrintToFile_2D_parity( CellularAutomata &ca,  const std::string &fileName)
+void PrintToFile_2D_parity(CellularAutomata &ca, const std::string &fileName)
 {
     std::ofstream outputFile(fileName);
 
     if (outputFile.is_open())
-    {   // Since we want 10 iterations, we will get the grid each time
+    { // Since we want 10 iterations, we will get the grid each time
         for (int iteration = 0; iteration < 10; ++iteration)
         {
             // Access the internal state using the new method
@@ -121,12 +120,12 @@ void PrintToFile_2D_parity( CellularAutomata &ca,  const std::string &fileName)
 }
 
 // Function to print results of 2D cellular automata that use totalistic rule
-void PrintToFile_2D_totalistic( CellularAutomata &ca,  const std::string &fileName)
+void PrintToFile_2D_totalistic(CellularAutomata &ca, const std::string &fileName)
 {
     std::ofstream outputFile(fileName);
 
     if (outputFile.is_open())
-    {   // Since we want 10 iterations, we will get the grid each time
+    { // Since we want 10 iterations, we will get the grid each time
         for (int iteration = 0; iteration < 10; ++iteration)
         {
             // Access the internal state using the new method
@@ -159,12 +158,12 @@ void PrintToFile_2D_totalistic( CellularAutomata &ca,  const std::string &fileNa
 }
 
 // Function to print results of 1D cellular automata that use majority rule
-void PrintToFile_1D_majority( CellularAutomata &ca,  const std::string &fileName)
+void PrintToFile_1D_majority(CellularAutomata &ca, const std::string &fileName)
 {
     std::ofstream outputFile(fileName);
 
     if (outputFile.is_open())
-    {   // Since we want 10 iterations, we will get the grid each time
+    { // Since we want 10 iterations, we will get the grid each time
         for (int iteration = 0; iteration < 10; ++iteration)
         {
             // Access the internal state using the new method
@@ -174,14 +173,15 @@ void PrintToFile_1D_majority( CellularAutomata &ca,  const std::string &fileName
             outputFile << "Iteration " << iteration + 1 << ":\n";
 
             // Print the grid to the file
-               for(int cell : grid){
-                    outputFile << cell << ' ';
-               }
-               outputFile << "\n";
+            for (int cell : grid)
+            {
+                outputFile << cell << ' ';
+            }
+            outputFile << "\n";
 
             // Apply the rule for the next iteration
             ca.ApplyRule1D(majorityRule);
-        } 
+        }
 
         outputFile.close();
         std::cout << "Results saved to file: " << fileName << std::endl;
@@ -193,12 +193,12 @@ void PrintToFile_1D_majority( CellularAutomata &ca,  const std::string &fileName
 }
 
 // Function to print results of 1D cellular automata that use parity rule
-void PrintToFile_1D_parity( CellularAutomata &ca,  const std::string &fileName)
+void PrintToFile_1D_parity(CellularAutomata &ca, const std::string &fileName)
 {
     std::ofstream outputFile(fileName);
 
     if (outputFile.is_open())
-    {   // Since we want 10 iterations, we will get the grid each time
+    { // Since we want 10 iterations, we will get the grid each time
         for (int iteration = 0; iteration < 10; ++iteration)
         {
             // Access the internal state using the new method
@@ -208,14 +208,15 @@ void PrintToFile_1D_parity( CellularAutomata &ca,  const std::string &fileName)
             outputFile << "Iteration " << iteration + 1 << ":\n";
 
             // Print the grid to the file
-               for(int cell : grid){
-                    outputFile << cell << ' ';
-               }
-               outputFile << "\n";
+            for (int cell : grid)
+            {
+                outputFile << cell << ' ';
+            }
+            outputFile << "\n";
 
             // Apply the rule for the next iteration
             ca.ApplyRule1D(parityRule);
-        } 
+        }
 
         outputFile.close();
         std::cout << "Results saved to file: " << fileName << std::endl;
@@ -227,12 +228,12 @@ void PrintToFile_1D_parity( CellularAutomata &ca,  const std::string &fileName)
 }
 
 // Function to print results of 1D cellular automata that use totalistic rule
-void PrintToFile_1D_totalistic( CellularAutomata &ca,  const std::string &fileName)
+void PrintToFile_1D_totalistic(CellularAutomata &ca, const std::string &fileName)
 {
     std::ofstream outputFile(fileName);
 
     if (outputFile.is_open())
-    {   // Since we want 10 iterations, we will get the grid each time
+    { // Since we want 10 iterations, we will get the grid each time
         for (int iteration = 0; iteration < 10; ++iteration)
         {
             // Access the internal state using the new method
@@ -242,14 +243,15 @@ void PrintToFile_1D_totalistic( CellularAutomata &ca,  const std::string &fileNa
             outputFile << "Iteration " << iteration + 1 << ":\n";
 
             // Print the grid to the file
-               for(int cell : grid){
-                    outputFile << cell << ' ';
-               }
-               outputFile << "\n";
+            for (int cell : grid)
+            {
+                outputFile << cell << ' ';
+            }
+            outputFile << "\n";
 
             // Apply the rule for the next iteration
             ca.ApplyRule1D(totalisticRule);
-        } 
+        }
 
         outputFile.close();
         std::cout << "Results saved to file: " << fileName << std::endl;
@@ -259,8 +261,6 @@ void PrintToFile_1D_totalistic( CellularAutomata &ca,  const std::string &fileNa
         std::cerr << "Unable to open file: " << fileName << std::endl;
     }
 }
-
-
 
 int main()
 {
@@ -276,8 +276,8 @@ int main()
     cout << endl
          << endl
          << endl;
-     string filename1 = "../Utils/Data/2D_Periodic_Moore.txt";
-     PrintToFile_2D_majority(ca2D , filename1);
+    string filename1 = "../Utils/Data/2D_Periodic_Moore_majority.txt";
+    PrintToFile_2D_majority(ca2D, filename1);
 
     // Testing out the 2D , Fixed , and Moore conditions (majorityRule)
     CellularAutomata ca2d_1(10, GridDimension::TwoD, BoundaryCondition::Fixed, NeighborhoodType::Moore);
@@ -290,8 +290,8 @@ int main()
     cout << ca2d_1.Print() << endl
          << endl
          << endl;
-     string filename2 = "../Utils/Data/2D_Fixed_Moore.txt";
-     PrintToFile_2D_majority(ca2d_1, filename2);
+    string filename2 = "../Utils/Data/2D_Fixed_Moore.txt";
+    PrintToFile_2D_majority(ca2d_1, filename2);
 
     // Testing out the 2D , NoBoundary , and Moore conditions (majorityRule)
     CellularAutomata ca2d_2(10, GridDimension::TwoD, BoundaryCondition::NoBoundary, NeighborhoodType::Moore);
@@ -305,8 +305,8 @@ int main()
     cout << endl
          << endl
          << endl;
-    string filename3 = "../Utils/Data/2D_NoBoundary_Moore.txt";
-     PrintToFile_2D_majority(ca2d_2 , filename3);
+    string filename3 = "../Utils/Data/2D_NoBoundary_Moore_majority.txt";
+    PrintToFile_2D_majority(ca2d_2, filename3);
 
     // Testing out the 2D, Periodic, and Moore conditions (totalisticRule)
     CellularAutomata ca2d_3(10, GridDimension::TwoD, BoundaryCondition::Periodic, NeighborhoodType::Moore);
@@ -320,8 +320,8 @@ int main()
     cout << endl
          << endl
          << endl;
-     string filename4 = "../Utils/Data/2D_Periodic_Moore_totalistic.txt";
-     PrintToFile_2D_totalistic(ca2d_3 , filename4);
+    string filename4 = "../Utils/Data/2D_Periodic_Moore_totalistic.txt";
+    PrintToFile_2D_totalistic(ca2d_3, filename4);
 
     // Testing out the 2D, Fixed, and Moore conditions (totalisticRule)
     CellularAutomata ca2d_4(10, GridDimension::TwoD, BoundaryCondition::Fixed, NeighborhoodType::Moore);
@@ -335,8 +335,8 @@ int main()
     cout << endl
          << endl
          << endl;
-     string filename5 = "../Utils/Data/2D_Fixed_Moore_totalistic.txt";
-     PrintToFile_2D_totalistic(ca2d_4 , filename5);
+    string filename5 = "../Utils/Data/2D_Fixed_Moore_totalistic.txt";
+    PrintToFile_2D_totalistic(ca2d_4, filename5);
 
     // Testing out the 2D, NoBoundary, and Moore conditions (totalisticRule)
     CellularAutomata ca2d_5(10, GridDimension::TwoD, BoundaryCondition::NoBoundary, NeighborhoodType::Moore);
@@ -350,8 +350,8 @@ int main()
     cout << endl
          << endl
          << endl;
-     string filename6 = "../Utils/Data/2D_NoBoundary_Moore_totalistic.txt";
-     PrintToFile_2D_totalistic(ca2d_5, filename6);
+    string filename6 = "../Utils/Data/2D_NoBoundary_Moore_totalistic.txt";
+    PrintToFile_2D_totalistic(ca2d_5, filename6);
 
     // Testing out the 2D, Periodic, and Moore conditions (parityRule)
     CellularAutomata ca2d_6(10, GridDimension::TwoD, BoundaryCondition::Periodic, NeighborhoodType::Moore);
@@ -365,8 +365,8 @@ int main()
     cout << endl
          << endl
          << endl;
-     string filename7 = "../Utils/Data/2D_Periodic_Moore_parity.txt";
-     PrintToFile_2D_parity(ca2d_6 , filename7);
+    string filename7 = "../Utils/Data/2D_Periodic_Moore_parity.txt";
+    PrintToFile_2D_parity(ca2d_6, filename7);
 
     // Testing out the 2D, Fixed, and Moore conditions (parityRule)
     CellularAutomata ca2d_7(10, GridDimension::TwoD, BoundaryCondition::Fixed, NeighborhoodType::Moore);
@@ -380,8 +380,8 @@ int main()
     cout << endl
          << endl
          << endl;
-     string filename8 = "../Utils/Data/2D_Fixed_Moore_parity.txt";
-     PrintToFile_2D_parity(ca2d_7 , filename8);
+    string filename8 = "../Utils/Data/2D_Fixed_Moore_parity.txt";
+    PrintToFile_2D_parity(ca2d_7, filename8);
 
     // Testing out the 2D, NoBoundary, and Moore conditions (parityRule)
     CellularAutomata ca2d_8(10, GridDimension::TwoD, BoundaryCondition::NoBoundary, NeighborhoodType::Moore);
@@ -395,8 +395,8 @@ int main()
     cout << endl
          << endl
          << endl;
-     string filename9 = "../Utils/Data/2D_NoBoundary_Moore_paity.txt";
-     PrintToFile_2D_parity(ca2d_8 , filename9);
+    string filename9 = "../Utils/Data/2D_NoBoundary_Moore_paity.txt";
+    PrintToFile_2D_parity(ca2d_8, filename9);
 
     //________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
     // Test 1: 1D, Periodic, Moore
@@ -434,8 +434,8 @@ int main()
     ca1D_periodic_vn.Print();
     cout << endl
          << endl;
-     string filename10 = "../Utils/Data/1D_Periodic_VN_parity.txt";
-     PrintToFile_1D_parity(ca1D_periodic_vn,filename10);
+    string filename10 = "../Utils/Data/1D_Periodic_VN_parity.txt";
+    PrintToFile_1D_parity(ca1D_periodic_vn, filename10);
 
     // Test 5: 1D, Fixed, Von Neumann (parityRule)
     CellularAutomata ca1D_fixed_vn(10, GridDimension::OneD, BoundaryCondition::Fixed, NeighborhoodType::VonNeumann);
@@ -445,8 +445,8 @@ int main()
     ca1D_fixed_vn.Print();
     cout << endl
          << endl;
-     string filename11 = "../Utils/Data/1D_Fixed_VN_parity.txt";
-     PrintToFile_1D_parity(ca1D_fixed_vn,filename11);
+    string filename11 = "../Utils/Data/1D_Fixed_VN_parity.txt";
+    PrintToFile_1D_parity(ca1D_fixed_vn, filename11);
 
     // Test 6: 1D, NoBoundary, Von Neumann (parityRule)
     CellularAutomata ca1D_nobound_vn(10, GridDimension::OneD, BoundaryCondition::NoBoundary, NeighborhoodType::VonNeumann);
@@ -456,8 +456,8 @@ int main()
     ca1D_nobound_vn.Print();
     cout << endl
          << endl;
-     string filename12 = "../Utils/Data/1D_NoBoundary_VN_parity.txt";
-     PrintToFile_1D_parity(ca1D_nobound_vn, filename12);
+    string filename12 = "../Utils/Data/1D_NoBoundary_VN_parity.txt";
+    PrintToFile_1D_parity(ca1D_nobound_vn, filename12);
 
     // Test 7: 1D, Periodic, Von Neumann (totalisticRule_1D)
     CellularAutomata ca1D_periodic_vn2(10, GridDimension::OneD, BoundaryCondition::Periodic, NeighborhoodType::VonNeumann);
@@ -467,8 +467,8 @@ int main()
     ca1D_periodic_vn2.Print();
     cout << endl
          << endl;
-     string filename13 = "../Utils/Data/1D_Periodic_VN_totalistic.txt";
-     PrintToFile_1D_totalistic(ca1D_periodic_vn2,filename13);
+    string filename13 = "../Utils/Data/1D_Periodic_VN_totalistic.txt";
+    PrintToFile_1D_totalistic(ca1D_periodic_vn2, filename13);
 
     // Test 8: 1D, Fixed, Von Neumann (totalisticRule_1D)
     CellularAutomata ca1D_fixed_vn2(10, GridDimension::OneD, BoundaryCondition::Fixed, NeighborhoodType::VonNeumann);
@@ -478,8 +478,8 @@ int main()
     ca1D_fixed_vn2.Print();
     cout << endl
          << endl;
-     string filename14 = "../Utils/Data/1D_Fixed_VN_totalistic.txt";
-     PrintToFile_1D_totalistic(ca1D_fixed_vn2,filename14);
+    string filename14 = "../Utils/Data/1D_Fixed_VN_totalistic.txt";
+    PrintToFile_1D_totalistic(ca1D_fixed_vn2, filename14);
 
     // Test 9: 1D, NoBoundary, Von Neumann (totalisticRule_1D)
     CellularAutomata ca1D_nobound_vn2(10, GridDimension::OneD, BoundaryCondition::NoBoundary, NeighborhoodType::VonNeumann);
@@ -489,8 +489,8 @@ int main()
     ca1D_nobound_vn2.Print();
     cout << endl
          << endl;
-     string filename15 = "../Utils/Data/1D_NoBoundary_VN_totalistic.txt";
-     PrintToFile_1D_totalistic(ca1D_nobound_vn2,filename15);
+    string filename15 = "../Utils/Data/1D_NoBoundary_VN_totalistic.txt";
+    PrintToFile_1D_totalistic(ca1D_nobound_vn2, filename15);
 
     // Test 10: 1D, Periodic, Von Neumann (majorityRule_1D)
     CellularAutomata ca1D_periodic_vn3(10, GridDimension::OneD, BoundaryCondition::Periodic, NeighborhoodType::VonNeumann);
@@ -500,8 +500,8 @@ int main()
     ca1D_periodic_vn3.Print();
     cout << endl
          << endl;
-     string filename16 = "../Utils/Data/1D_Periodic_VN_majority.txt";
-     PrintToFile_1D_majority(ca1D_periodic_vn3,filename16);
+    string filename16 = "../Utils/Data/1D_Periodic_VN_majority.txt";
+    PrintToFile_1D_majority(ca1D_periodic_vn3, filename16);
 
     // Test 11: 1D, Fixed, Von Neumann (majorityRule_1D)
     CellularAutomata ca1D_fixed_vn3(10, GridDimension::OneD, BoundaryCondition::Fixed, NeighborhoodType::VonNeumann);
@@ -511,8 +511,8 @@ int main()
     ca1D_fixed_vn3.Print();
     cout << endl
          << endl;
-     string filename17 = "../Utils/Data/1D_Fixed_VN_majority.txt";
-     PrintToFile_1D_majority(ca1D_fixed_vn3,filename17);
+    string filename17 = "../Utils/Data/1D_Fixed_VN_majority.txt";
+    PrintToFile_1D_majority(ca1D_fixed_vn3, filename17);
 
     // Test 12: 1D, NoBoundary, Von Neumann (majorityRule_1D)
     CellularAutomata ca1D_nobound_vn3(10, GridDimension::OneD, BoundaryCondition::NoBoundary, NeighborhoodType::VonNeumann);
@@ -522,8 +522,8 @@ int main()
     ca1D_nobound_vn3.Print();
     cout << endl
          << endl;
-     string filename18 = "../Utils/Data/1D_NoBoundary_VN_majority.txt";
-     PrintToFile_1D_majority(ca1D_nobound_vn3,filename18);
+    string filename18 = "../Utils/Data/1D_NoBoundary_VN_majority.txt";
+    PrintToFile_1D_majority(ca1D_nobound_vn3, filename18);
 
     return 0;
 }
