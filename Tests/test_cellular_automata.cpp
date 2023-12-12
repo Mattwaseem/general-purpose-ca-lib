@@ -398,7 +398,111 @@ int main()
      string filename9 = "../Utils/Data/2D_NoBoundary_Moore_paity.txt";
      PrintToFile_2D_parity(ca2d_8 , filename9);
 
-    //________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+//________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+   
+    // Testing out 2D Cellular Automata for Von Neumann Neighborhood
+
+    //Test 1: 2D, Fixed, VN (majorityRule)
+    CellularAutomata ca2DVN1(10, GridDimension::TwoD, BoundaryCondition::Fixed, NeighborhoodType::VonNeumann);
+    ca2DVN1.Initialize2D(initGrid2D); // Initializing the grid
+    cout << "Results of 2D, Fixed, and VN (majorityRule): " << endl;
+    ca2DVN1.Print(); // Printing out the final state
+    cout << endl
+         << endl
+         << endl;
+    string f1 = "../Utils/Data/2D_Fixed_VN_majority.txt"; // Adding results into a text file
+    PrintToFile_2D_majority(ca2DVN1, f1);
+
+    //Test 2: 2D, Fixed, VN (parityRule)
+    CellularAutomata ca2DVN2(10, GridDimension::TwoD, BoundaryCondition::Fixed, NeighborhoodType::VonNeumann);
+    ca2DVN2.Initialize2D(initGrid2D); // Initializing the grid
+    cout << "Results of 2D, Fixed, and VN (parityRule): " << endl;
+    ca2DVN2.Print(); // Printing out the final state
+    cout << endl
+         << endl
+         << endl;
+    string f2 = "../Utils/Data/2D_Fixed_VN_parity.txt"; // Adding results into a text file
+    PrintToFile_2D_parity(ca2DVN2, f2);
+
+    //Test 3: 2D, Periodic, VN (parityRule)
+    CellularAutomata ca2DVN3(10, GridDimension::TwoD, BoundaryCondition::Periodic, NeighborhoodType::VonNeumann);
+    ca2DVN3.Initialize2D(initGrid2D); // Initializing the grid
+    cout << "Results of 2D, Periodic, and VN (parityRule): " << endl;
+    ca2DVN3.Print(); // Printing out the final state
+    cout << endl
+         << endl
+         << endl;
+    string f3 = "../Utils/Data/2D_Periodic_VN_parity.txt"; // Adding results into a text file
+    PrintToFile_2D_parity(ca2DVN3, f3);
+
+    //Test 4: 2D, NoBoundary, VN (parityRule)
+    CellularAutomata ca2DVN4(10, GridDimension::TwoD, BoundaryCondition::NoBoundary, NeighborhoodType::VonNeumann);
+    ca2DVN4.Initialize2D(initGrid2D); // Initializing the grid
+    cout << "Results of 2D, NoBoundary, and VN (parityRule): " << endl;
+    ca2DVN4.Print(); // Printing out the final state
+    cout << endl
+         << endl
+         << endl;
+    string f4 = "../Utils/Data/2D_NoBoundary_VN_parity.txt"; // Adding results into a text file
+    PrintToFile_2D_parity(ca2DVN4, f4);    
+
+    //Test 5: 2D, Periodic, VN (majorityRule)
+    CellularAutomata ca2DVN5(10, GridDimension::TwoD, BoundaryCondition::Periodic, NeighborhoodType::VonNeumann);
+    ca2DVN5.Initialize2D(initGrid2D); // Initializing the grid
+    cout << "Results of 2D, Periodic, and VN (majorityyRule): " << endl;
+    ca2DVN5.Print(); // Printing out the final state
+    cout << endl
+         << endl
+         << endl;
+    string f5 = "../Utils/Data/2D_Periodic_VN_majority.txt"; // Adding results into a text file
+    PrintToFile_2D_majority(ca2DVN5, f5); 
+
+    //Test 6: 2D, NoBoundary, VN (majorityRule)
+    CellularAutomata ca2DVN6(10, GridDimension::TwoD, BoundaryCondition::NoBoundary, NeighborhoodType::VonNeumann);
+    ca2DVN6.Initialize2D(initGrid2D); // Initializing the grid
+    cout << "Results of 2D, NoBoundary, and VN (majorityyRule): " << endl;
+    ca2DVN6.Print(); // Printing out the final state
+    cout << endl
+         << endl
+         << endl;
+    string f6 = "../Utils/Data/2D_NoBoundary_VN_majority.txt"; // Adding results into a text file
+    PrintToFile_2D_majority(ca2DVN6, f6); 
+
+    //Test 7: 2D, Periodic, VN (totalisticRule)
+    CellularAutomata ca2DVN7(10, GridDimension::TwoD, BoundaryCondition::Periodic, NeighborhoodType::VonNeumann);
+    ca2DVN7.Initialize2D(initGrid2D); // Initializing the grid
+    cout << "Results of 2D, Periodic, and VN (totalisticRule): " << endl;
+    ca2DVN7.Print(); // Printing out the final state
+    cout << endl
+         << endl
+         << endl;
+    string f7 = "../Utils/Data/2D_Periodic_VN_totalistic.txt"; // Adding results into a text file
+    PrintToFile_2D_totalistic(ca2DVN7, f7); 
+
+    //Test 8: 2D, Fixed, VN (totalisticRule)
+    CellularAutomata ca2DVN8(10, GridDimension::TwoD, BoundaryCondition::Fixed, NeighborhoodType::VonNeumann);
+    ca2DVN8.Initialize2D(initGrid2D); // Initializing the grid
+    cout << "Results of 2D, Fixed, and VN (totalisticRule): " << endl;
+    ca2DVN8.Print(); // Printing out the final state
+    cout << endl
+         << endl
+         << endl;
+    string f8 = "../Utils/Data/2D_Fixed_VN_totalistic.txt"; // Adding results into a text file
+    PrintToFile_2D_totalistic(ca2DVN8, f8);  
+
+    //Test 9: 2D, NoBoundary, VN (totalisticRule)
+    CellularAutomata ca2DVN9(10, GridDimension::TwoD, BoundaryCondition::NoBoundary, NeighborhoodType::VonNeumann);
+    ca2DVN9.Initialize2D(initGrid2D); // Initializing the grid
+    cout << "Results of 2D, NoBoundary, and VN (totalisticRule): " << endl;
+    ca2DVN9.Print(); // Printing out the final state
+    cout << endl
+         << endl
+         << endl;
+    string f9 = "../Utils/Data/2D_NoBoundary_VN_totalistic.txt"; // Adding results into a text file
+    PrintToFile_2D_totalistic(ca2DVN9, f9); 
+
+
+//________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
     // Test 1: 1D, Periodic, Moore
     CellularAutomata ca1D_periodic_moore(10, GridDimension::OneD, BoundaryCondition::Periodic, NeighborhoodType::Moore);
     ca1D_periodic_moore.Initialize1D(initGrid1D);
