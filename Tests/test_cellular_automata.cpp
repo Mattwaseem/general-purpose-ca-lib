@@ -3,7 +3,7 @@
 #include <random>
 #include <sstream> // print to a string stream and use your -ostream and pipe to a text file.
 #include <fstream> // read from a file.
-#include "../include/CellularAutomata.h"
+#include "../Include/CellularAutomata.h"
 #include "../src/cellular_automata.cpp"
 using namespace std; // allows the use of std namespace without prefixing (i.e std::vector -> vector)
 
@@ -264,7 +264,6 @@ void PrintToFile_1D_totalistic( CellularAutomata &ca,  const std::string &fileNa
 
 int main()
 {
-
     // Testing out the 2D, Periodic, and Moore conditions (majorityRule)
     CellularAutomata ca2D(10, GridDimension::TwoD, BoundaryCondition::Periodic, NeighborhoodType::Moore);
 
@@ -277,7 +276,7 @@ int main()
     cout << endl
          << endl
          << endl;
-     string filename1 = "2D_Periodic_Moore.txt";
+     string filename1 = "../Utils/Data/2D_Periodic_Moore.txt";
      PrintToFile_2D_majority(ca2D , filename1);
 
     // Testing out the 2D , Fixed , and Moore conditions (majorityRule)
@@ -291,7 +290,7 @@ int main()
     cout << ca2d_1.Print() << endl
          << endl
          << endl;
-     string filename2 = "2D_Fixed_Moore.txt";
+     string filename2 = "../Utils/Data/2D_Fixed_Moore.txt";
      PrintToFile_2D_majority(ca2d_1, filename2);
 
     // Testing out the 2D , NoBoundary , and Moore conditions (majorityRule)
@@ -306,7 +305,7 @@ int main()
     cout << endl
          << endl
          << endl;
-    string filename3 = "2D_NoBoundary_Moore.txt";
+    string filename3 = "../Utils/Data/2D_NoBoundary_Moore.txt";
      PrintToFile_2D_majority(ca2d_2 , filename3);
 
     // Testing out the 2D, Periodic, and Moore conditions (totalisticRule)
@@ -321,7 +320,7 @@ int main()
     cout << endl
          << endl
          << endl;
-     string filename4 = "2D_Periodic_Moore_totalistic.txt";
+     string filename4 = "../Utils/Data/2D_Periodic_Moore_totalistic.txt";
      PrintToFile_2D_totalistic(ca2d_3 , filename4);
 
     // Testing out the 2D, Fixed, and Moore conditions (totalisticRule)
@@ -336,7 +335,7 @@ int main()
     cout << endl
          << endl
          << endl;
-     string filename5 = "2D_Fixed_Moore_totalistic.txt";
+     string filename5 = "../Utils/Data/2D_Fixed_Moore_totalistic.txt";
      PrintToFile_2D_totalistic(ca2d_4 , filename5);
 
     // Testing out the 2D, NoBoundary, and Moore conditions (totalisticRule)
@@ -351,7 +350,7 @@ int main()
     cout << endl
          << endl
          << endl;
-     string filename6 = "2D_NoBoundary_Moore_totalistic.txt";
+     string filename6 = "../Utils/Data/2D_NoBoundary_Moore_totalistic.txt";
      PrintToFile_2D_totalistic(ca2d_5, filename6);
 
     // Testing out the 2D, Periodic, and Moore conditions (parityRule)
@@ -366,7 +365,7 @@ int main()
     cout << endl
          << endl
          << endl;
-     string filename7 = "2D_Periodic_Moore_parity.txt";
+     string filename7 = "../Utils/Data/2D_Periodic_Moore_parity.txt";
      PrintToFile_2D_parity(ca2d_6 , filename7);
 
     // Testing out the 2D, Fixed, and Moore conditions (parityRule)
@@ -381,7 +380,7 @@ int main()
     cout << endl
          << endl
          << endl;
-     string filename8 = "2D_Fixed_Moore_parity.txt";
+     string filename8 = "../Utils/Data/2D_Fixed_Moore_parity.txt";
      PrintToFile_2D_parity(ca2d_7 , filename8);
 
     // Testing out the 2D, NoBoundary, and Moore conditions (parityRule)
@@ -396,7 +395,7 @@ int main()
     cout << endl
          << endl
          << endl;
-     string filename9 = "2D_NoBoundary_Moore_paity.txt";
+     string filename9 = "../Utils/Data/2D_NoBoundary_Moore_paity.txt";
      PrintToFile_2D_parity(ca2d_8 , filename9);
 
     //________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
@@ -435,7 +434,7 @@ int main()
     ca1D_periodic_vn.Print();
     cout << endl
          << endl;
-     string filename10 = "1D_Periodic_VN_parity.txt";
+     string filename10 = "../Utils/Data/1D_Periodic_VN_parity.txt";
      PrintToFile_1D_parity(ca1D_periodic_vn,filename10);
 
     // Test 5: 1D, Fixed, Von Neumann (parityRule)
@@ -446,7 +445,7 @@ int main()
     ca1D_fixed_vn.Print();
     cout << endl
          << endl;
-     string filename11 = "1D_Fixed_VN_parity.txt";
+     string filename11 = "../Utils/Data/1D_Fixed_VN_parity.txt";
      PrintToFile_1D_parity(ca1D_fixed_vn,filename11);
 
     // Test 6: 1D, NoBoundary, Von Neumann (parityRule)
@@ -457,7 +456,7 @@ int main()
     ca1D_nobound_vn.Print();
     cout << endl
          << endl;
-     string filename12 = "1D_NoBoundary_VN_parity.txt";
+     string filename12 = "../Utils/Data/1D_NoBoundary_VN_parity.txt";
      PrintToFile_1D_parity(ca1D_nobound_vn, filename12);
 
     // Test 7: 1D, Periodic, Von Neumann (totalisticRule_1D)
@@ -468,7 +467,7 @@ int main()
     ca1D_periodic_vn2.Print();
     cout << endl
          << endl;
-     string filename13 = "1D_Periodic_VN_totalistic.txt";
+     string filename13 = "../Utils/Data/1D_Periodic_VN_totalistic.txt";
      PrintToFile_1D_totalistic(ca1D_periodic_vn2,filename13);
 
     // Test 8: 1D, Fixed, Von Neumann (totalisticRule_1D)
@@ -479,7 +478,7 @@ int main()
     ca1D_fixed_vn2.Print();
     cout << endl
          << endl;
-     string filename14 = "1D_Fixed_VN_totalistic.txt";
+     string filename14 = "../Utils/Data/1D_Fixed_VN_totalistic.txt";
      PrintToFile_1D_totalistic(ca1D_fixed_vn2,filename14);
 
     // Test 9: 1D, NoBoundary, Von Neumann (totalisticRule_1D)
@@ -490,7 +489,7 @@ int main()
     ca1D_nobound_vn2.Print();
     cout << endl
          << endl;
-     string filename15 = "1D_NoBoundary_VN_totalistic.txt";
+     string filename15 = "../Utils/Data/1D_NoBoundary_VN_totalistic.txt";
      PrintToFile_1D_totalistic(ca1D_nobound_vn2,filename15);
 
     // Test 10: 1D, Periodic, Von Neumann (majorityRule_1D)
@@ -501,7 +500,7 @@ int main()
     ca1D_periodic_vn3.Print();
     cout << endl
          << endl;
-     string filename16 = "1D_Periodic_VN_majority.txt";
+     string filename16 = "../Utils/Data/1D_Periodic_VN_majority.txt";
      PrintToFile_1D_majority(ca1D_periodic_vn3,filename16);
 
     // Test 11: 1D, Fixed, Von Neumann (majorityRule_1D)
@@ -512,7 +511,7 @@ int main()
     ca1D_fixed_vn3.Print();
     cout << endl
          << endl;
-     string filename17 = "1D_Fixed_VN_majority.txt";
+     string filename17 = "../Utils/Data/1D_Fixed_VN_majority.txt";
      PrintToFile_1D_majority(ca1D_fixed_vn3,filename17);
 
     // Test 12: 1D, NoBoundary, Von Neumann (majorityRule_1D)
@@ -523,7 +522,7 @@ int main()
     ca1D_nobound_vn3.Print();
     cout << endl
          << endl;
-     string filename18 = "1D_NoBoundary_VN_majority.txt";
+     string filename18 = "../Utils/Data/1D_NoBoundary_VN_majority.txt";
      PrintToFile_1D_majority(ca1D_nobound_vn3,filename18);
 
     return 0;
