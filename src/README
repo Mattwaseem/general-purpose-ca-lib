@@ -1,10 +1,10 @@
 # Chem 274B: Software Engineering Fundamentals for Molecular Sciences
 
-# Bin: Directory where any/all executable files are located
+# src: Directory where all source files used for this project are stored  
 
 # Created by: Sahil, Matt, Aisha 
 # Date of Created: 12/10/2023
-# Directory Path: general-purpose-ca-lib/Bin/
+# Directory Path: general-purpose-ca-lib/src/
 
 LIST OF SUBDIRECTORIES IN THIS DIRECTORY:
 
@@ -12,5 +12,5 @@ LIST OF SUBDIRECTORIES IN THIS DIRECTORY:
 
 LIST OF FILES IN THIS DIRECTORY:
 
-- test_cellular_automata: Executable file for the base cellular automata model
+- Makefile: Makes the targets in this directory
 - README.md: (this file) 

@@ -55,6 +55,10 @@ public:
     using InitializationFunction1D = std::function<void(Grid1D &)>; // defined as a function pointer (std::function).
     using InitializationFunction2D = std::function<void(Grid2D &)>;
 
+    // Declaration of the member function to retrieve the 2D grid state, this function will be used by the application
+    // to retrieve the current state of the CA for nueron simulation.
+    const Grid2D &getGrid2D() const;
+
     // Constructor for the CellularAutomata class.
     // It takes in the size of the grid, the grid dimension, the boundary condition, and the neighborhood types and
     // initializes the member variables accordingly and generate an instance of the class CA.
@@ -71,6 +75,15 @@ public:
 
     // This is the display function which prints the current state of the CA to the standard output/terminal
     std::string Print() const;
+
+    // Method to get the internal state (grid) of the CellularAutomata
+    const Grid2D& GetGrid2D() const{
+        return grid_2d_;
+    }
+
+    const Grid1D& GetGrid1D() const{
+        return grid_1d_;
+    }
 
 private: // private members of the CellularAutomata class that will not be accesible outside of the class.
     // represent the size of the grid in 1D it is number of cells and in 2D it is number of rows and columns.
