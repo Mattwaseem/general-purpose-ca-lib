@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector> // used as the data structure that will hold the data for the grid for the CA.
 #include <random>
-#include "../include/CellularAutomata.h"
+#include "../Include/CellularAutomata.h"
 using namespace std; // allows the use of std namespace without prefixing (i.e std::vector -> vector)
 
 // Constructor
@@ -91,14 +91,16 @@ void CellularAutomata::ApplyRule2D(const RuleFunction2D &rule_func)
         {
             int neighbors = CalculateNeighbors2D(i, j);            // calculate the number of active neighbors for the current cell
             new_grid[i][j] = rule_func(neighbors, grid_2d_[i][j]); // Apply the rule_func (fxn pointer) to each cell which takes current state and number of neighbors
+
         }
     }
     grid_2d_ = std::move(new_grid); // assign the new grid to gird_2d and transfer ownership of data from new_grid to grid_2d_
 }
 
 // Print
-void CellularAutomata::Print() const // this is the display method, const prevent this method from changing the state of the CA.
+string CellularAutomata::Print() const // this is the display method, const prevent this method from changing the state of the CA.
 {
+    stringstream ss; // stringstream used to print the grid in a specific format depending on the dimension.
     // Print the grid in a specific format depending on the dimension.
     if (dimension_ == GridDimension::OneD) // if dimension is 1D, print the grid_1d_ in a specific format.
     {
@@ -119,13 +121,18 @@ void CellularAutomata::Print() const // this is the display method, const preven
             std::cout << "\n"; // print a new line after the row is printed.
         }
     }
+    return ss.str(); // return the stringstream as a string
 }
 
 // CalculateNeighbors1D // update for Moore's neighborhood
 // this function is responsible for calculating the number of neighbors a cell have
 // depending on the neighborhood type and boundary condition.
 // this function is used in the context of 1D CA.
+// this function is responsible for calculating the number of neighbors a cell have
+// depending on the neighborhood type and boundary condition.
+// this function is used in the context of 1D CA.
 int CellularAutomata::CalculateNeighbors1D(int index) const
+// int index is the cell which neighbors need to be calculated for.
 // int index is the cell which neighbors need to be calculated for.
 {
     int neighbors = 0; // used to keep track of neighbor count around int index
@@ -138,8 +145,11 @@ int CellularAutomata::CalculateNeighbors1D(int index) const
         // Boundary condition handling
         // the boundary is periodic and it wraps around similar to a torus
         // the boundaries have neighbors on the opposite side of the grid
+        // the boundary is periodic and it wraps around similar to a torus
+        // the boundaries have neighbors on the opposite side of the grid
         switch (boundary_condition_)
         {
+
         case BoundaryCondition::Periodic: // boundary periodic = torus shaped.
             ni = (ni + size_) % size_;    // if ni (neighbor index) is less than 0 or greater
                                           // than the size of the grid (size_), wrap around
@@ -174,6 +184,13 @@ int CellularAutomata::CalculateNeighbors1D(int index) const
 // consideraton: Moor's neighboorhood is defualt option but can handle von Nuemann.
 // Parameters : int i, int j - the cell whose neighbors need to be calculated for.
 // Returns : int neighbors - the total number of neighbors around int index.
+// This is CalculateNeighbors2D within class CellularAutomata.
+
+// Purpose: to calculate the number of neighbors a cell has in 2D CA.
+
+// consideraton: Moor's neighboorhood is defualt option but can handle von Nuemann.
+// Parameters : int i, int j - the cell whose neighbors need to be calculated for.
+// Returns : int neighbors - the total number of neighbors around int index.
 int CellularAutomata::CalculateNeighbors2D(int i, int j) const
 {
     int neighbors = 0;               // used to keep track of neighbor count around int index
@@ -181,12 +198,14 @@ int CellularAutomata::CalculateNeighbors2D(int i, int j) const
     {
         for (int dj = -1; dj <= 1; ++dj) // loop through each cell in the grid_1d_
         {
+
             if (di == 0 && dj == 0) // this is the index being considered whose neighbors are counted
                 continue;           // Skip the center cell
 
             // For Von Neumann neighborhood, consider only direct neighbors
             // if neighborhood_type_ is von Neumann and di + dj > 1, skip the cell.
             // this conditions skips the diagnol neighbors.
+ 
             if (neighborhood_type_ == NeighborhoodType::VonNeumann && abs(di) + abs(dj) > 1)
             {
                 continue;
@@ -196,6 +215,10 @@ int CellularAutomata::CalculateNeighbors2D(int i, int j) const
             int nj = j + dj; // the coordinates of neighboring cells in relation to the neighbor index
 
             // Boundary condition handling
+            // this switch statement handles the boundary conditions for the 2D CA.
+            // the boundary is periodic and it wraps around similar to a torus
+            // if the boundary is fixed it assumes cells at edges have fixed value
+            // if no boundary is specified, cells outside the grid are ignored.
             // this switch statement handles the boundary conditions for the 2D CA.
             // the boundary is periodic and it wraps around similar to a torus
             // if the boundary is fixed it assumes cells at edges have fixed value
@@ -222,6 +245,7 @@ int CellularAutomata::CalculateNeighbors2D(int i, int j) const
                                                                     // is outside the grid boundaries, ignore them and continue to the next cell.
                     continue;                                       // continue to the next iteration without counting the neighbor.
                 break;                                              // once the logic is applied exit the switch statement.
+
             }
 
             neighbors += grid_2d_[ni][nj]; // used to count the number of neighboring cells that have specific states within 2D grid with simulating CA.
@@ -256,6 +280,7 @@ int totalisticRule_1D(int neighbors, int currentState)
 {
     return (neighbors > 0) ? 1 : 0; // if the number of neighboring cells in state 1 ('neighbors') is greater than 0 the current cell state cell should be set to 1;
                                     // otherwise it is set to 0.
+// This function is used to implement the totalistic rule for the 1D CA model.
 }
 
 // This majority rule is specific for the 1D CA model
@@ -264,4 +289,6 @@ int majorityRule_1D(int neighbors, int currentState)
 {
     return (neighbors >= 2) ? 1 : 0; // if the number of neighboring cells in state 1 ('neighbors') is greater than or equal to 2 the current cell state cell should be set to 1;
                                      // otherwise it is set to 0.
+// This function is used to implement the majority rule for the 1D CA model.
 }
+

@@ -8,7 +8,7 @@
 #include <vector>
 #include <functional>
 #include <random>
-
+using namespace std;
 // Enum declarations -> enumaration used to represent a set of configuration for the CA library
 // Name constant rather than generic numbers were use to make the code more readable and understandable.
 
@@ -43,6 +43,8 @@ public:
     using Grid1D = std::vector<int>;
     using Grid2D = std::vector<std::vector<int>>;
 
+    // For possible improvements maybe implement a sparse matrix instead of vector of vector for larger operations
+
     // These are rule function types that take in the current state and the number of neighbors and return the new state.
     // they represent the rules that will be used to update the state of a cell based on its current state and the number of neighbors.
     using RuleFunction1D = std::function<int(int, int)>;
@@ -72,7 +74,7 @@ public:
     void ApplyRule2D(const RuleFunction2D &rule_func);
 
     // This is the display function which prints the current state of the CA to the standard output/terminal
-    void Print() const;
+    std::string Print() const;
 
     // Method to get the internal state (grid) of the CellularAutomata
     const Grid2D& GetGrid2D() const{

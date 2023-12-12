@@ -23,7 +23,7 @@ SOURCE = cellular_automata.cpp
 LIBRARY = mylibca.a
 
 # Phony targets for make commands
-.PHONY: all clean
+.PHONY: all clean move_object
 
 # Default target, builds the static library and moves it to LIBDIR
 all: $(OBJECT)
