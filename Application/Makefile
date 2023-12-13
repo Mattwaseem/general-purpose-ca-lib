@@ -11,6 +11,7 @@ CPPFLAGS = -g -O3 -std=c++11
 INCDIR = ../include
 LIBDIR = ../Lib
 BINDIR = ../Bin
+PLOTDIR = ../Utils/Plots
 
 
 # Executable name
@@ -36,5 +37,5 @@ run:
 
 clean:
 	@echo "Cleaning up"
-	@rm -f $(BINDIR)/$(EXECUTABLE)
+	@rm -f $(BINDIR)/$(EXECUTABLE) $(PLOTDIR)/*.txt $(PLOTDIR)/*.gif
 
