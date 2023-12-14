@@ -19,6 +19,8 @@ EXECUTABLE = neuron2neuron
 # Source file
 SOURCE = neuron2neuron.cpp
 
+LDFLAGS = -L$(LIBDIR)
+
 .PHONY: all clean run
 
 all: $(BINDIR)/$(EXECUTABLE)
@@ -37,4 +39,3 @@ run:
 clean:
 	@echo "Cleaning up"
 	@rm -f $(BINDIR)/$(EXECUTABLE)
-
