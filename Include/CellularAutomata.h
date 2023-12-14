@@ -77,12 +77,21 @@ public:
     std::string Print() const;
 
     // Method to get the internal state (grid) of the CellularAutomata
-    const Grid2D& GetGrid2D() const{
+    const Grid2D &GetGrid2D() const
+    {
         return grid_2d_;
     }
 
-    const Grid1D& GetGrid1D() const{
+    const Grid1D &GetGrid1D() const
+    {
         return grid_1d_;
+    }
+
+    // Public member function to access CalculateNeighbors2D via reference
+    int CalculateNeighbors2DByReference(int i, int j) const
+    {
+        // Call the private CalculateNeighbors2D function and return its result by reference
+        return CalculateNeighbors2D(i, j);
     }
 
 private: // private members of the CellularAutomata class that will not be accesible outside of the class.

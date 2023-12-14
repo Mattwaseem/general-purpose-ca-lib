@@ -249,6 +249,8 @@ int CellularAutomata::CalculateNeighbors2D(int i, int j) const
             }
 
             neighbors += grid_2d_[ni][nj]; // used to count the number of neighboring cells that have specific states within 2D grid with simulating CA.
+            // implement another variable that counts the number of neighbors numneighbors that increment and will be passed instead of the currentState
+            // only increase if the numneighbors if boundary condition is satisfied.
         }
     }
     return neighbors; // return total neighbor count based on the conditions that were applied
@@ -265,9 +267,10 @@ int totalisticRule(int neighbors, int currentState)
 // purpose: implement the totalistic rule where the new state of a cell depends on the exact count of neighboring cells in state 1 (3 in this case)
 {
     return (neighbors == 3) ? 1 : 0; // if the number of neighboring cells in state 1 ('neighbors') is equal to 3 the current cell state cell should be set to 1;
+    // I have to look at the edge cases / corners change the rule to where it calculates the average. (use change the current state variable to be equal to the variable that sets to average. )
 }
 
-// This rule applies for the 2D CA model as well
+// This rule applies for the 2D CA model as well 
 int parityRule(int neighbors, int currentState)
 // purpose: to check the parity (even/or odd) of the number of neighboring cells in state 1.
 {
