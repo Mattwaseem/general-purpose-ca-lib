@@ -124,6 +124,7 @@ void PrintToFile_2D_majority(CellularAutomata &ca, const std::string &fileName)
     {
         std::cerr << "Unable to open file: " << fileName << std::endl;
     }
+    //
 }
 
 
