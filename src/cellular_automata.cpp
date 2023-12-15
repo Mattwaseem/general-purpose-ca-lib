@@ -255,10 +255,16 @@ int CellularAutomata::CalculateNeighbors2D(int i, int j) const
 }
 
 // This rule is specific for the 2D CA model
-int majorityRule(int neighbors, int currentState)
-// purpose : to determine the new state of a cell based on the majority of its neighboring cells being in state 1 or initial state.
+// int majorityRule(int neighbors, int currentState)
+// // purpose : to determine the new state of a cell based on the majority of its neighboring cells being in state 1 or initial state.
+// {
+//     return (neighbors > 4) ? 1 : 0; // if neighbors is greater than 4 current cell is set(?) to 1 else (:-> otherwise) set it to 0.
+// }
+int majorityRule2D(int neighbors, int currentState, int i, int j, int gridSize)
 {
-    return (neighbors > 4) ? 1 : 0; // if neighbors is greater than 4 current cell is set(?) to 1 else (:-> otherwise) set it to 0.
+    int majorityThreshold = (neighbors / 2) + 1;
+
+    return (neighbors > majorityThreshold) ? 1 : 0;
 }
 
 int totalisticRule(int neighbors, int currentState)
