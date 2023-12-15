@@ -12,7 +12,7 @@ using namespace std; // allows the use of std namespace without prefixing (i.e s
 // Each cell, representing a neuron, has two states: Active (1) or Inactive (0).
 const int INACTIVE = 0;
 const int ACTIVE = 1;
-double baseThreshold = 4.0;                                   // Base threshold
+double baseThreshold = 3.0;                                   // Base threshold
 double randomFactor = static_cast<double>(rand()) / RAND_MAX; // Random factor between 0 and 1
 
 // defining variability
@@ -31,8 +31,8 @@ void initNueronGrid(CellularAutomata::Grid2D &grid)
     {
         for (auto &cell : row)
         {
-            double prob = dis(gen);                   // Probability for the cell to be active
-            cell = (prob < 0.45) ? INACTIVE : ACTIVE; // Adjust 0.5 to control the density of active cells
+            double prob = dis(gen);                  // Probability for the cell to be active
+            cell = (prob < 0.5) ? INACTIVE : ACTIVE; // Adjust 0.5 to control the density of active cells
         }
     }
 }
@@ -207,7 +207,7 @@ void applyDecayAndThreshold(SynapticWeights &weights, double decayRate, double l
             double randomDecay = dis(gen);       // Random decay factor
             weight -= (decayRate + randomDecay); // Apply decay with randomness
 
-            weight = std::max(weight, 0.0);
+            weight = std::max(weight, 1.0);
             weight = std::min(weight, ltpThreshold);
         }
     }
