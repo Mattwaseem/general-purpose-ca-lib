@@ -255,30 +255,16 @@ int CellularAutomata::CalculateNeighbors2D(int i, int j) const
 }
 
 // This rule is specific for the 2D CA model
-// int majorityRule(int neighbors, int currentState)
-// // purpose : to determine the new state of a cell based on the majority of its neighboring cells being in state 1 or initial state.
-// {
-//     return (neighbors > 4) ? 1 : 0; // if neighbors is greater than 4 current cell is set(?) to 1 else (:-> otherwise) set it to 0.
-// }
-int majorityRule2D(int neighbors, int currentState, int i, int j, int gridSize)
-{
-    int majorityThreshold = (neighbors / 2) + 1;
-
-    return (neighbors > majorityThreshold) ? 1 : 0;
+// Majority Rule
+int CellularAutomata::MajorityRule(int activeNeighbors) {
+    return activeNeighbors > 4 ? ACTIVE_1 : INACTIVE;
 }
 
-int totalisticRule(int neighbors, int currentState)
-// purpose: implement the totalistic rule where the new state of a cell depends on the exact count of neighboring cells in state 1 (3 in this case)
-{
-    return (neighbors == 3) ? 1 : 0; // if the number of neighboring cells in state 1 ('neighbors') is equal to 3 the current cell state cell should be set to 1;
-}
-
-// This rule applies for the 2D CA model as well
-int parityRule(int neighbors, int currentState)
-// purpose: to check the parity (even/or odd) of the number of neighboring cells in state 1.
-{
-    return (neighbors % 2 == 0) ? 1 : 0; // if the number of neighboring cells in state 1 ('neighbors') is even the current cell state cell should be set to 1;
-                                         // otherwise, set the current cell state to 0.//
+// Totalistic Rule
+int CellularAutomata::TotalisticRule(int activeNeighbors) {
+    if (activeNeighbors >= 5) return ACTIVE_3;
+    else if (activeNeighbors >= 3) return ACTIVE_2;
+    else return ACTIVE_1;
 }
 
 // This totalistic rule is specific for the 1D CA model
