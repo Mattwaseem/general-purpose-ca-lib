@@ -39,6 +39,12 @@ enum class NeighborhoodType
 class CellularAutomata
 {
 public:
+
+    static const int INACTIVE = 0;
+    static const int ACTIVE_1 = 1;
+    static const int ACTIVE_2 = 2;
+    static const int ACTIVE_3 = 3;
+
     // Type aliases for 1D and 2D grids
     using Grid1D = std::vector<int>;
     using Grid2D = std::vector<std::vector<int>>;
@@ -72,6 +78,8 @@ public:
     CellularAutomata(int size, GridDimension dimension, BoundaryCondition bc, NeighborhoodType nt);
 
     // Member functions for the CellularAutomata class.
+    static int MajorityRule(int activeNeighbors);
+    static int TotalisticRule(int activeNeighbors);
 
     // These member functions are used to initialize the grid (1D/2D).
     void Initialize1D(const InitializationFunction1D &init_func);

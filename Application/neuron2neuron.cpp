@@ -1,120 +1,103 @@
-// The required headers are included here.
+// Includes standard input/output stream libraries, vector, random, and algorithm functionalities
 #include <iostream>
 #include <vector>
 #include <random>
+#include <algorithm>
+// Includes the CellularAutomata header from the 'Include' directory
 #include "../Include/CellularAutomata.h"
 
-// The standard namespace is used to simplify syntax.
 using namespace std;
 
-// Constants representing the inactive and active states of cells, and a threshold value, are defined.
-const int INACTIVE = 0;
-const int ACTIVE = 1;
-const int THRESHOLD = 3;
+// Function to initialize the neuron grid with random values
+void initNeuronGrid(CellularAutomata::Grid2D &grid, mt19937 &gen) {
+    uniform_int_distribution<> dis(0, 100); // Uniform distribution for random numbers between 0 and 100
 
-// A type alias 'SynapticWeights' is created for a 2D vector of doubles.
-using SynapticWeights = vector<vector<double>>;
-
-// initNeuronGrid function initializes the neuron grid with a mix of active and inactive states.
-void initNeuronGrid(CellularAutomata::Grid2D &grid) {
-    random_device rd; // A random number generator is initialized.
-    mt19937 gen(rd()); // A Mersenne Twister pseudo-random generator is used.
-    uniform_int_distribution<> dis(0, 100); // Uniform distribution between 0 and 100 is defined.
-
-    // Iterates over each cell in the grid.
+    // Iterate through each row and cell of the grid
     for (auto &row : grid) {
         for (auto &cell : row) {
-            // Each cell is set to active or inactive based on a random draw.
-            cell = dis(gen) < 70 ? INACTIVE : ACTIVE;
+            int randVal = dis(gen); // Generate a random value
+            // Assign cell state based on random value thresholds
+            if (randVal < 70) cell = CellularAutomata::INACTIVE;
+            else if (randVal < 80) cell = CellularAutomata::ACTIVE_1;
+            else if (randVal < 90) cell = CellularAutomata::ACTIVE_2;
+            else cell = CellularAutomata::ACTIVE_3;
         }
     }
 }
 
-// initializeSynapticWeights function sets the initial synaptic weights to 1.0 for all connections.
-void initializeSynapticWeights(SynapticWeights &weights, int size) {
-    weights.resize(size, vector<double>(size, 1.0));
-}
+// Function to add random activity in the grid
+void addRandomActivity(CellularAutomata::Grid2D &grid, mt19937 &gen, int activityRate) {
+    uniform_int_distribution<> dis(0, 100); // Distribution for random activity decision
+    uniform_int_distribution<> stateDis(1, 3); // Random state between ACTIVE_1 and ACTIVE_3
 
-// updateSynapticWeights function adjusts the synaptic weights based on the current grid state.
-void updateSynapticWeights(SynapticWeights &weights, const CellularAutomata::Grid2D &grid, int grid_size, int step) {
-    double increment = (step % 10 == 0) ? 0.1 : 0.05; // The increment varies with the step count.
-
-    // Iterates over the grid to adjust weights.
-    for (int i = 0; i < grid_size; ++i) {
-        for (int j = 0; j < grid_size; ++j) {
-            // Increases weight for active cells.
-            if (grid[i][j] == ACTIVE) {
-                weights[i][j] += increment;
-                weights[i][j] = min(weights[i][j], 4.0); // Caps the weight to avoid runaway growth.
+    // Iterate through each cell and randomly activate some based on the activity rate
+    for (auto &row : grid) {
+        for (auto &cell : row) {
+            if (dis(gen) < activityRate) {
+                cell = stateDis(gen);
             }
         }
     }
 }
 
-// applyDecayAndThreshold function reduces synaptic weights over time and imposes a maximum limit.
-void applyDecayAndThreshold(SynapticWeights &weights, double decayRate, double ltpThreshold) {
-    // Iterates over each weight to apply decay and threshold logic.
-    for (auto &row : weights) {
-        for (auto &weight : row) {
-            weight -= decayRate; // Applies decay.
-            weight = max(weight, 0.0); // Ensures weight doesn't fall below zero.
-            if (weight > ltpThreshold) {
-                weight = ltpThreshold; // Enforces a maximum threshold.
+// Function to apply weighted firing rules based on current state, active neighbors, and randomness
+int weightedFiringRule(int currentState, int activeNeighborCount, mt19937 &gen, int step) {
+    uniform_int_distribution<> randomChoice(0, 1); // Binary random choice
+
+    // Switch statement for different cell states
+    switch (currentState) {
+        case CellularAutomata::ACTIVE_1:
+            // Randomness added to the majority rule
+            if (randomChoice(gen)) {
+                return CellularAutomata::MajorityRule(activeNeighborCount);
             }
-        }
+            break;
+        case CellularAutomata::ACTIVE_2:
+            // Randomness and periodic change added to the totalistic rule
+            if (randomChoice(gen) || step % 5 == 0) {
+                return CellularAutomata::TotalisticRule(activeNeighborCount);
+            }
+            break;
+        case CellularAutomata::ACTIVE_3:
+            // Random deactivation or transition to a lower active state
+            return randomChoice(gen) ? CellularAutomata::INACTIVE : CellularAutomata::ACTIVE_2;
+        default:
+            break;
     }
+    return currentState;
 }
 
-// weightedFiringRule function determines the next state of a cell based on its current state, the number of active neighbors, and its synaptic weight.
-int weightedFiringRule(int currentState, int sumOfNeighbors, double synapticWeight) {
-    // Applies different logic depending on whether the current state is active or inactive.
-    if (currentState == ACTIVE) {
-        return (sumOfNeighbors * synapticWeight >= THRESHOLD + 1) ? ACTIVE : INACTIVE;
-    } else {
-        return (sumOfNeighbors * synapticWeight >= THRESHOLD) ? ACTIVE : INACTIVE;
-    }
-}
-
-// The main function where the simulation is orchestrated.
+// Main function
 int main() {
-    int grid_size = 10;
-    // CellularAutomata object is initialized with predefined parameters.
-    CellularAutomata ca(grid_size, GridDimension::TwoD, BoundaryCondition::Periodic, NeighborhoodType::Moore);
-    SynapticWeights weights;
+    int grid_size = 10; // Size of the grid
+    mt19937 gen(random_device{}()); // Random number generator
+    CellularAutomata ca(grid_size, GridDimension::TwoD, BoundaryCondition::Periodic, NeighborhoodType::Moore); // Cellular automata instance
 
-    // Initializes the grid and synaptic weights.
-    ca.Initialize2D(initNeuronGrid);
-    initializeSynapticWeights(weights, grid_size);
+    // Initialize the grid with random values
+    ca.Initialize2D([&gen](CellularAutomata::Grid2D& grid){ initNeuronGrid(grid, gen); });
 
-    // The main simulation loop runs for a fixed number of steps.
+    // Simulation loop for 20 steps
     for (int step = 0; step < 20; ++step) {
-        auto gridState = ca.GetGrid2D(); // Retrieves the current state of the grid.
+        auto gridState = ca.GetGrid2D(); // Get the current state of the grid
 
-        // Updates synaptic weights and applies decay and threshold logic.
-        updateSynapticWeights(weights, gridState, grid_size, step);
-        applyDecayAndThreshold(weights, 0.02, 2.5);
+        // Add random activity every third step
+        if (step % 3 == 0) {
+            addRandomActivity(gridState, gen, 5); // 5% chance of activating a cell
+        }
 
-        // Iterates over each cell to update its state based on the weighted firing rule.
+        // Iterate through each cell to apply the firing rule
         for (int i = 0; i < grid_size; ++i) {
             for (int j = 0; j < grid_size; ++j) {
-                int neighbors = ca.GetNeighbors2D(i, j);
-
-                // Introduces random noise to make the grid behavior more dynamic.
-                if (rand() % 100 < 20) {
-                    gridState[i][j] = !gridState[i][j];
-                } else {
-                    gridState[i][j] = weightedFiringRule(gridState[i][j], neighbors, weights[i][j]);
-                }
+                int activeNeighbors = ca.GetNeighbors2D(i, j); // Get count of active neighbors
+                gridState[i][j] = weightedFiringRule(gridState[i][j], activeNeighbors, gen, step); // Apply the firing rule
             }
         }
 
-        // Updates the CellularAutomata's internal grid state.
+        // Update the grid with the new state
         ca.UpdateGrid2D(gridState);
-        // Prints the current state of the grid.
         cout << "Grid state after step " << step << ":\n";
-        ca.Print();
+        ca.Print(); // Print the current state of the grid
     }
 
-    outputFile.close();
     return 0;
 }
