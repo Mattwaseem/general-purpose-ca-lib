@@ -1,0 +1,18 @@
+# Chem 274B: Software Engineering Fundamentals for Molecular Sciences
+
+### Application: Directory where the neuron cellular automata is created 
+
+#### Created by: Sahil, Matt, Aisha 
+#### Date of Created: 12/15/2023
+#### Directory Path: general-purpose-ca-lib/Application/
+
+## LIST OF SUBDIRECTORIES IN THIS DIRECTORY:
+
+(no subdirectories) 
+
+
+## LIST OF FILES IN THIS DIRECTORY:
+
+- Makefile: makes different targets in this directory
+- README.md: (this file) 
+- neuron2neuron.cpp: Source file for CA model specific to neurons & their behaviour
