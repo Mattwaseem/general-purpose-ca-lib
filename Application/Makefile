@@ -2,23 +2,18 @@
 CPP = g++ # The C++ compiler to be used
 
 # Compiler flags
-# -g: Enables debugging information
-# -O3: Enables compiler optimizations
-# -std=c++11: Enables C++11 standard features
 CPPFLAGS = -g -O3 -std=c++11
 
 # Directories
-INCDIR = ../include
-LIBDIR = ../Lib
+INCDIR = ../Include
+SRCDIR = ../src
 BINDIR = ../Bin
-PLOTDIR = ../Utils/Plots
-
 
 # Executable name
 EXECUTABLE = neuron2neuron
 
-# Source file
-SOURCE = neuron2neuron.cpp
+# Source files
+SOURCE = neuron2neuron.cpp $(SRCDIR)/cellular_automata.cpp
 
 .PHONY: all clean run
 
@@ -26,7 +21,7 @@ all: $(BINDIR)/$(EXECUTABLE)
 
 $(BINDIR)/$(EXECUTABLE): $(SOURCE)
 	@echo "Compiling $(SOURCE)"
-	$(CPP) $(CPPFLAGS) -o $(EXECUTABLE) $(SOURCE) -I$(INCDIR) $(LDFLAGS)
+	$(CPP) $(CPPFLAGS) -o $(EXECUTABLE) $(SOURCE) -I$(INCDIR)
 	@echo "Moving executable to $(BINDIR)"
 	@mv $(EXECUTABLE) $(BINDIR)
 
@@ -37,5 +32,4 @@ run:
 
 clean:
 	@echo "Cleaning up"
-	@rm -f $(BINDIR)/$(EXECUTABLE) $(PLOTDIR)/*.txt $(PLOTDIR)/*.gif
-
+	@rm -f $(BINDIR)/$(EXECUTABLE)

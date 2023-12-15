@@ -2,9 +2,6 @@
 CPP = g++ # The C++ compiler to be used
 
 # Compiler flags
-# -g: Enables debugging information
-# -O3: Enables compiler optimizations
-# -std=c++11: Enables C++11 standard features
 CPPFLAGS = -g -O3 -std=c++11
 
 # Include directory (relative to the src directory)
@@ -22,24 +19,29 @@ SOURCE = cellular_automata.cpp
 # Static library name
 LIBRARY = mylibca.a
 
-# Phony targets for make commands
 .PHONY: all clean move_object
 
-# Default target, builds the static library and moves it to LIBDIR
 all: $(OBJECT)
 	@echo "Creating static library $(LIBRARY)"
 	ar rcs $(LIBRARY) $(OBJECT)
+	@echo "Static library $(LIBRARY) created."
 	@echo "Moving $(LIBRARY) to $(LIBDIR)"
 	@mv $(LIBRARY) $(LIBDIR)/
-	@echo "Cleaning up object file"
+	@echo "$(LIBRARY) moved to $(LIBDIR)"
+	@echo "Current directory: `pwd`"
+	@echo "Contents of $(LIBDIR):"
+	@ls $(LIBDIR)
+	@echo "Cleaning up object file $(OBJECT)"
 	@rm -f $(OBJECT)
 
-# Rule for compiling cellular_automata.cpp to an object file
 $(OBJECT): $(SOURCE) $(INCDIR)/CellularAutomata.h
 	@echo "Compiling $(SOURCE) to object file"
 	$(CPP) $(CPPFLAGS) -I$(INCDIR) -c $(SOURCE) -o $(OBJECT)
+	@echo "$(SOURCE) compiled to $(OBJECT)"
+	@echo "Contents of current directory:"
+	@ls
 
-# Clean target to clean up the library file in LIBDIR
 clean:
 	@echo "Cleaning up library file in $(LIBDIR)"
 	@rm -f $(LIBDIR)/$(LIBRARY)
+	@echo "Library file in $(LIBDIR) cleaned."
