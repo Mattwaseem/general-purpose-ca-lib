@@ -115,5 +115,6 @@ int main() {
         ca.Print();
     }
 
+    outputFile.close();
     return 0;
 }
