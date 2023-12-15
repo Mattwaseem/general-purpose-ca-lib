@@ -39,9 +39,16 @@ enum class NeighborhoodType
 class CellularAutomata
 {
 public:
-    // type aliases/defintion for 1D and 2D grids using standard vector as the primary data structure.
+    // Type aliases for 1D and 2D grids
     using Grid1D = std::vector<int>;
     using Grid2D = std::vector<std::vector<int>>;
+
+    // Now declare the UpdateGrid2D method
+    void UpdateGrid2D(const Grid2D& new_grid) {
+        if (dimension_ != GridDimension::TwoD)
+            throw std::runtime_error("UpdateGrid2D called on a non-2D automaton");
+        grid_2d_ = new_grid;
+    }
 
     // For possible improvements maybe implement a sparse matrix instead of vector of vector for larger operations
 
@@ -75,6 +82,17 @@ public:
 
     // This is the display function which prints the current state of the CA to the standard output/terminal
     std::string Print() const;
+
+    // Public method to calculate the number of active neighbors for a 1D cell
+    int GetNeighbors1D(int index) const {
+        return CalculateNeighbors1D(index);
+    }
+
+    // Public method to calculate the number of active neighbors for a 2D cell
+    int GetNeighbors2D(int i, int j) const {
+        return CalculateNeighbors2D(i, j);
+    }
+
 
     // Method to get the internal state (grid) of the CellularAutomata
     const Grid2D& GetGrid2D() const{
