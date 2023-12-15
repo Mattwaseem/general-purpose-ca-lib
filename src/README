@@ -13,4 +13,5 @@
 ## LIST OF FILES IN THIS DIRECTORY:
 
 - Makefile: Makes the targets in this directory
+- cellular_automata.cpp: Source code that contains the base cellular auomata class
 - README.md: (this file) 
