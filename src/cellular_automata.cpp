@@ -195,6 +195,7 @@ int CellularAutomata::CalculateNeighbors1D(int index) const
 int CellularAutomata::CalculateNeighbors2D(int i, int j) const
 {
     int neighbors = 0;               // used to keep track of neighbor count around int index
+    double avg = 0.0;
     for (int di = -1; di <= 1; ++di) // loop through each cell in the grid_1d_
     {
         for (int dj = -1; dj <= 1; ++dj) // loop through each cell in the grid_1d_
@@ -249,9 +250,10 @@ int CellularAutomata::CalculateNeighbors2D(int i, int j) const
             }
 
             neighbors += grid_2d_[ni][nj]; // used to count the number of neighboring cells that have specific states within 2D grid with simulating CA.
+            avg += grid_2d_[ni][nj];
         }
     }
-    return neighbors; // return total neighbor count based on the conditions that were applied
+    return neighbors,avg ; // return total neighbor count based on the conditions that were applied
 }
 
 // This rule is specific for the 2D CA model
@@ -260,17 +262,26 @@ int CellularAutomata::CalculateNeighbors2D(int i, int j) const
 // {
 //     return (neighbors > 4) ? 1 : 0; // if neighbors is greater than 4 current cell is set(?) to 1 else (:-> otherwise) set it to 0.
 // }
-int majorityRule2D(int neighbors, int currentState, int i, int j, int gridSize)
+int majorityRule2D(int neighbors, double avg, int i, int j, int gridSize)
 {
-    int majorityThreshold = (neighbors / 2) + 1;
+    // int majorityThreshold = (neighbors / 2) + 1;
+    if(neighbors >= 3){ // Covers majority rule where if sum of neighbors is greater than 4. cell assumes active state
+        return 1;
+    } else if (avg == 1) // Covers corner/edge cases where if majority of the cells around cell are 1, then average 
+    {
+        return 1;
+    } else{ // If neither case above are true, cell isn't activated 
+        return 0;
+    }
+    
 
-    return (neighbors > majorityThreshold) ? 1 : 0;
+    // return (avg == 1) ? 1 : 0;
 }
 
-int totalisticRule(int neighbors, int currentState)
+int totalisticRule(int neighbors, double avg)
 // purpose: implement the totalistic rule where the new state of a cell depends on the exact count of neighboring cells in state 1 (3 in this case)
 {
-    return (neighbors == 3) ? 1 : 0; // if the number of neighboring cells in state 1 ('neighbors') is equal to 3 the current cell state cell should be set to 1;
+    return (avg == 1) ? 1 : 0; // if the number of neighboring cells in state 1 ('neighbors') is equal to 3 the current cell state cell should be set to 1;
 }
 
 // This rule applies for the 2D CA model as well
