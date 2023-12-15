@@ -1,0 +1,19 @@
+# Chem 274B: Software Engineering Fundamentals for Molecular Sciences
+
+### Data: Directory where text files containing results and scripts ready to visualize them are kept
+
+#### Created by: Sahil, Matt, Aisha 
+#### Date of Created: 12/15/2023
+#### Directory Path: general-purpose-ca-lib/Utils/Data
+
+## LIST OF SUBDIRECTORIES IN THIS DIRECTORY:
+
+(no subdirectories) 
+
+## LIST OF FILES IN THIS DIRECTORY:
+
+- .txt: Numerous files that contain results from testing out the CA and its various different configurations (Neighborhood type, boundary type, and Dimension sizes)
+- Graphing.ipynb: Python notebook that displays the graph made by visualizing the results from all the text files mentioned above. Walks through logic that was used in order to successfully plot the data
+- neuron2neuron.gif: A GIF was made that shows how the CA & each individual cell behaves throught each iteration. It is the culmination of this entire project
+- testgraphing.py: Python file where code from the notebook was first tested out before being moved over 
+- README.md: (this file) 
