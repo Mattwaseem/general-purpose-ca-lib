@@ -12,11 +12,11 @@ using namespace std; // allows the use of std namespace without prefixing (i.e s
 // Each cell, representing a neuron, has two states: Active (1) or Inactive (0).
 const int INACTIVE = 0;
 const int ACTIVE = 1;
-double baseThreshold = 3.0;                                   // Base threshold
+double baseThreshold = 4.0;                                   // Base threshold
 double randomFactor = static_cast<double>(rand()) / RAND_MAX; // Random factor between 0 and 1
 
 // defining variability
-double variability = 0.5; // You can adjust the value as needed
+double variability = 0.6; // You can adjust the value as needed
 
 double dynamicThreshold = baseThreshold + (randomFactor * variability); // Adjusted threshold
 
@@ -31,8 +31,8 @@ void initNueronGrid(CellularAutomata::Grid2D &grid)
     {
         for (auto &cell : row)
         {
-            double prob = dis(gen);                  // Probability for the cell to be active
-            cell = (prob < 0.5) ? INACTIVE : ACTIVE; // Adjust 0.5 to control the density of active cells
+            double prob = dis(gen);                   // Probability for the cell to be active
+            cell = (prob < 0.25) ? INACTIVE : ACTIVE; // Adjust 0.5 to control the density of active cells
         }
     }
 }
@@ -125,9 +125,11 @@ int applyFiringRule(const SynapticWeights &weights, const CellularAutomata::Grid
     }
     // Debugging: Log the sum of weighted neighbors
     // cout << "Cell (" << i << ", " << j << ") Sum: " << sumOfWeightedNeighbors << endl;
-    double activationThreshold = dynamicThreshold + (randomFactor * 0.5); // Adjust threshold with randomness and
-                                                                          // multiply to have low randomness factor
-    return (sumOfWeightedNeighbors >= dynamicThreshold) ? ACTIVE : INACTIVE;
+    double activationThreshold = baseThreshold + (randomFactor * 0.5);          // dynamicThreshold + (randomFactor * 0.5); // Adjust threshold with randomness and
+                                                                                //  multiply to have low randomness factor
+    return (sumOfWeightedNeighbors >= activationThreshold) ? ACTIVE : INACTIVE; // dynamicThreshold)
+    // ? ACTIVE
+    // : INACTIVE;
 }
 // accessing different grid states and how they are handeled.
 // Function to retrieve the grid state from a CellularAutomata object
