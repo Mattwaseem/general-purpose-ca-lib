@@ -111,6 +111,14 @@ public:
         return grid_1d_;
     }
 
+    int getSize() const{
+        return size_;
+    }
+
+    int getNeighbors2D(int i , int j) const{
+        return CalculateNeighbors2D(i , j);
+    }
+
 private: // private members of the CellularAutomata class that will not be accesible outside of the class.
     // represent the size of the grid in 1D it is number of cells and in 2D it is number of rows and columns.
     int size_;

@@ -44,32 +44,77 @@ void initGrid2D(CellularAutomata::Grid2D &grid)
 }
 
 // Function to print results of 2D cellular automata that use majority rule
+// void PrintToFile_2D_majority(CellularAutomata &ca, const std::string &fileName)
+// {
+//     std::ofstream outputFile(fileName);
+
+//     if (outputFile.is_open())
+//     { // Since we want 10 iterations, we will get the grid each time
+//         for (int iteration = 0; iteration < 10; ++iteration)
+//         {
+//             // Access the internal state using the new method
+//             const CellularAutomata::Grid2D &grid = ca.GetGrid2D();
+
+//             // Print the iteration number
+//             outputFile << "Iteration " << iteration + 1 << ":\n";
+
+//             // Print the grid to the file
+//             for (const auto &row : grid)
+//             {
+//                 for (int cell : row)
+//                 {
+//                     outputFile << cell << ' ';
+//                 }
+//                 outputFile << '\n';
+//             }
+
+//             // Apply the rule for the next iteration
+//             ca.ApplyRule2D(majorityRule);
+//         }
+
+//         outputFile.close();
+//         std::cout << "Results saved to file: " << fileName << std::endl;
+//     }
+//     else
+//     {
+//         std::cerr << "Unable to open file: " << fileName << std::endl;
+//     }
+// }
+
+
+// Function to print results of 2D cellular automata that use majority rule
 void PrintToFile_2D_majority(CellularAutomata &ca, const std::string &fileName)
 {
     std::ofstream outputFile(fileName);
 
     if (outputFile.is_open())
-    { // Since we want 10 iterations, we will get the grid each time
+    {
+        const CellularAutomata::Grid2D &grid = ca.getGrid2D(); // Note: use getGrid2D instead of GetGrid2D()
+
         for (int iteration = 0; iteration < 10; ++iteration)
         {
-            // Access the internal state using the new method
-            const CellularAutomata::Grid2D &grid = ca.GetGrid2D();
-
-            // Print the iteration number
             outputFile << "Iteration " << iteration + 1 << ":\n";
 
-            // Print the grid to the file
-            for (const auto &row : grid)
+            int gridSize = ca.getSize(); // Corrected: use size_ instead of getSize()
+
+            for (int i = 0; i < gridSize; ++i)
             {
-                for (int cell : row)
+                for (int j = 0; j < gridSize; ++j)
                 {
-                    outputFile << cell << ' ';
+                    outputFile << grid[i][j] << ' ';
+
+                    // Calculate the number of neighbors dynamically based on cell position
+                    int neighborsCount = ca.getNeighbors2D(i, j);
+
+                    // Apply the rule for the next iteration with the correct totalNeighbors
+                    ca.ApplyRule2D([neighborsCount, i, j, gridSize](int neighbors, int currentState) {
+                        return majorityRule2D(neighbors, currentState, i, j, gridSize);
+                    });
                 }
                 outputFile << '\n';
             }
-
-            // Apply the rule for the next iteration
-            ca.ApplyRule2D(majorityRule);
+            std::cout << "Grid after iteration " << iteration + 1 << ":\n";
+            std::cout << ca.Print(); // Add this line for debugging
         }
 
         outputFile.close();
@@ -79,7 +124,10 @@ void PrintToFile_2D_majority(CellularAutomata &ca, const std::string &fileName)
     {
         std::cerr << "Unable to open file: " << fileName << std::endl;
     }
+    //
 }
+
+
 
 // Function to print results of 2D cellular automata that use parity rule
 void PrintToFile_2D_parity(CellularAutomata &ca, const std::string &fileName)
@@ -180,7 +228,7 @@ void PrintToFile_1D_majority(CellularAutomata &ca, const std::string &fileName)
             outputFile << "\n";
 
             // Apply the rule for the next iteration
-            ca.ApplyRule1D(majorityRule);
+            ca.ApplyRule1D(majorityRule_1D);
         }
 
         outputFile.close();
