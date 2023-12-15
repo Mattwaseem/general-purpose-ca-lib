@@ -9,6 +9,11 @@ A general-purpose library for creating cellular automata with a focus on neuron 
 #### Created by: Sahil, Matt, Aisha 
 #### Date of Created: 12/10/2023
 #### Directory Path: general-purpose-ca-lib/
+##
+##
+##
+Hello, this directory contains everything needed to make our cellular automota 
+application that is based on neuronal behavior. You'll find files that contain the base cellular automata as well as the neuron version of the cellular automata that is based on the base class. Everything that was needed to build this is also contained in this repo, like all the header files and the library object that linked all necessary object files. 
 
 ## LIST OF SUBDIRECTORIES IN THIS DIRECTORY:
 

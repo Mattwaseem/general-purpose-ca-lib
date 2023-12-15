@@ -12,5 +12,5 @@
 
 ## LIST OF FILES IN THIS DIRECTORY:
 
-- CellularAutomata.h: Header file where class & its methods are declared
+- CellularAutomata.h: Header file where Cellular Automata class & its methods are declared
 - README.md: (this file) 
