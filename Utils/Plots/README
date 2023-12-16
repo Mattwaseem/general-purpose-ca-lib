@@ -1,0 +1,17 @@
+# Chem 274B: Software Engineering Fundamentals for Molecular Sciences
+
+### Plots: Directory where plotting data from neuron model test results is conducted
+
+#### Created by: Sahil, Matt, Aisha 
+#### Date of Created: 12/15/2023
+#### Directory Path: general-purpose-ca-lib/Utils/Plots 
+
+## LIST OF SUBDIRECTORIES IN THIS DIRECTORY:
+
+(no subdirectories) 
+
+## LIST OF FILES IN THIS DIRECTORY:
+
+- neurongraphing.py: Contains code that was later transferred to `NeuronGraphinh.ipynb`. Allows relevant data to be turned into a gif, which shows how our CA model behaves as time/iterations go on.
+- NeuronGraphing.ipynb: Python notebook that contains code from the py file listed above, just presented in a cleaner format.
+- README.md: (this file) 
